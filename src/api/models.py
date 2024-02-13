@@ -43,7 +43,7 @@ class Reservation(db.Model):
             "flight_time": self.flight_time
         }
     
-
+# user, login, sign up, password-reset, reservations, 
 # class Helicopter(db.Model):
 #     __tablename__ = "Helicopter"    
 #     id = db.Column(db.Integer, primary_key=True)
