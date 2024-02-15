@@ -21,6 +21,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
+			login : async (email,password)=> {
+
+				const opts = {
+					method :'POST',
+					headers:{
+						"content-type" : "application/json"
+					},
+					body   : JSON.stringify({
+						"email": email,
+						"password" : password
+					})
+				}
+			try{
+				const resp = await fetch('https://obscure-space-enigma-v6vjwpgwqjqv3p6v9-3001.app.github.dev/api/token', opts)
+					if(resp.status != 200){ 
+						alert("There has been some errors");
+						return false;
+					}
+					const data = await resp.json();
+						console.log("This comes from backend",data);
+						sessionStorage.setItem("token",data.access_token);
+						setStore({token : data.access_token})
+						return true;
+				}
+				catch(error){
+					console.log("There was error !!!", error);
+				}
+
+			},
+
 			getMessage: async () => {
 				try{
 					// fetching data from the backend
