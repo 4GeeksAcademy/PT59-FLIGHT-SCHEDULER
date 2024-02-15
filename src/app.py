@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db
+# from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -93,17 +93,19 @@ def createUser():
     if user != None:
         return jsonify({"msg": "email exists"}), 401
     
-    user = user(first_name=first_name, last_name=last_name ,password=password, email = email)
-    db.session.add(user)
-    db.session.commit()
+    if user == None:
+        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email)
+        db.session.add(new_user_data)
+        db.session.commit()
     
-    response_body = {
-        "msg": "User successfully added"
-    }
+        response_body = {
+            "msg": "User successfully added"
+        }
 
-    return jsonify(response_body), 200
+        return jsonify(response_body), 200
 
-
+   
+# use put or post in signup
 
 
 
@@ -123,7 +125,7 @@ def create_token():
     return jsonify({ "token": access_token, "user_id": user.id }) ,200
 
 
-
+# ask shane what he thinks about that and should be handled
 
 @api.route('/edit_user', methods=[ 'PUT'])
 @jwt_required()
@@ -154,15 +156,37 @@ def edit_user():
 
 
 
-@app.route('/user', methods=['GET'])
-def get_user(user_id):
-   user = user.query.get(user_id)
+@app.route('/user/<int:id>', methods=['GET'])
+def get_user(id):
+   user = user.query.get(id)
 
    if user is None: 
     raise APIException("Person not found", status_code=404)
 
    return jsonify(user.serialize()), 200
 
+
+
+
+
+# @app.route('/user/<int:reservation>', methods=['POST'])
+# def get_user(user_id):
+#    user = user.query.get(user_id)
+
+#    if user is None: 
+#     raise APIException("Person not found", status_code=404)
+
+#    return jsonify(user.serialize()), 200
+
+
+# @app.route('/user/int:reservation', methods=['GET'])
+# def get_user_reservation(user_id):
+#    user = user.query.get(user_id)
+
+#    if user is None: 
+#     raise APIException("Person not found", status_code=404)
+
+#    return jsonify(user.serialize()), 200
 
 
 

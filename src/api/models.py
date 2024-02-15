@@ -1,18 +1,21 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime
-from your_flask_app import db  # Import your Flask app's db instance
+# from your_flask_app import db  # Import your Flask app's db instance
 from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
 class User(db.Model):
-    __tablename__ = "User"
+    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(120), unique=False, nullable=False)
+    last_name = db.Column(db.String(120), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    reservation = relationship("Reservation", back_populates = "User")
+    # reservations: List[Reservation]
+  
 
     # is_admin = db.Column(db.Boolean(), unique=False, nullable=False)
 
@@ -29,11 +32,23 @@ class User(db.Model):
 
 
 class Reservation(db.Model):
-    __tablename__ = "Reservation"
+    __tablename__ = "reservation"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    flight_time = db.Column(db.Integer(120), unique=False, nullable=False)
+    flight_time = db.Column(db.Integer, unique=False, nullable=False)
+    user_id = db.Column(Integer, db.ForeignKey("user.id"))
+    user = db.relationship(
+        "User",
+        backref=db.backref(
+            "reservations",
+            uselist=True
+        ),
+        uselist=False
+    )
+    
+ 
+    # function that says that 
 
     def serialize(self):
         return {
