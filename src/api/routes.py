@@ -15,7 +15,7 @@ from api.models import db
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Reservation
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -142,24 +142,32 @@ def get_user(id):
 
 
 
-# @app.route('/user/<int:reservation>', methods=['POST'])
-# def get_user(user_id):
-#    user = user.query.get(user_id)
+@api.route('/reservation', methods=['POST'])
+@jwt_required()
+def create_reservation(res_id):
+   user_id = get_jwt_identity()  
+   request_body = request.get_json()
+   name = request_body.get("name")
+   date = request_body.get("date")
+   flight_time = request_body.get("flight_time")
+   new_reservation = Reservation(name = name, date=date, flight_time=flight_time, user_id=user_id)
+   db.session.add(new_reservation)
+   db.session.commit()
+   return jsonify("User successfully created"), 200
 
-#    if user is None: 
-#     raise APIException("Person not found", status_code=404)
 
-#    return jsonify(user.serialize()), 200
-
-
-# @app.route('/user/int:reservation', methods=['GET'])
-# def get_user_reservation(user_id):
-#    user = user.query.get(user_id)
-
-#    if user is None: 
-#     raise APIException("Person not found", status_code=404)
-
-#    return jsonify(user.serialize()), 200
+@api.route('/reservation/<int:res_id>', methods=['PUT'])
+@jwt_required()
+def update_reservation(res_id):
+   user_id = get_jwt_identity()  
+   request_body = request.get_json()
+   name = request_body.get("name")
+   date = request_body.get("date")
+   flight_time = request_body.get("flight_time")
+   new_reservation = Reservation(id=res_id, name = name, date=date, flight_time=flight_time, user_id=user_id)
+#    db.session.add(new_reservation)
+#    db.session.commit()
+   return jsonify(request_body), 200
 
 
 
