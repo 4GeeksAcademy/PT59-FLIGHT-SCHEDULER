@@ -36,12 +36,12 @@ class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    flight_time = db.Column(db.Integer, unique=False, nullable=False)
+    
     user_id = db.Column(Integer, db.ForeignKey("user.id"))
     user = db.relationship(
         "User",
         backref=db.backref(
-            "reservations",
+            "reservation",
             uselist=True
         ),
         uselist=False

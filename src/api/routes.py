@@ -149,8 +149,8 @@ def create_reservation(res_id):
    request_body = request.get_json()
    name = request_body.get("name")
    date = request_body.get("date")
-   flight_time = request_body.get("flight_time")
-   new_reservation = Reservation(name = name, date=date, flight_time=flight_time, user_id=user_id)
+ 
+   new_reservation = Reservation(name = name, date=date, user_id=user_id)
    db.session.add(new_reservation)
    db.session.commit()
    return jsonify("User successfully created"), 200
@@ -163,12 +163,31 @@ def update_reservation(res_id):
    request_body = request.get_json()
    name = request_body.get("name")
    date = request_body.get("date")
-   flight_time = request_body.get("flight_time")
-   new_reservation = Reservation(id=res_id, name = name, date=date, flight_time=flight_time, user_id=user_id)
-#    db.session.add(new_reservation)
-#    db.session.commit()
+
+   new_reservation = Reservation(id=res_id, name = name, date=date, user_id=user_id)
+   db.session.add(new_reservation)
+   db.session.commit()
    return jsonify(request_body), 200
 
 
 
 
+
+@api.route('/reservation', methods=['GET'])
+def get_all_res():
+    reservations = Reservation.query.all()  # Fetch all reservation instances
+    if not reservations:
+        raise APIException("No reservations found", status_code=404)
+
+    # Serialize each reservation and return as a list
+    return jsonify([reservation.serialize() for reservation in reservations]), 200
+
+
+
+@api.route('/reservation/<int:reservation_id>', methods=['GET'])
+def get_res(reservation_id):
+    # Example of retrieving a reservation from a database
+    reservation = db.get_reservation_by_id(reservation_id)
+    if reservation is None:
+     raise APIException("Person not found", status_code=404)
+    return jsonify(reservation.serialize()), 200
