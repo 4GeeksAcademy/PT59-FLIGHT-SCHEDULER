@@ -30,7 +30,7 @@ import secrets
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
 import os
 from dotenv import load_dotenv
-
+import requests
 
 # from api.emailManager import send_email
 
@@ -191,3 +191,25 @@ def get_res(reservation_id):
     if reservation is None:
      raise APIException("Person not found", status_code=404)
     return jsonify(reservation.serialize()), 200
+
+# weather 
+@api.route('/weather', methods=['GET'])
+def get_weather():
+   
+
+    url = "https://weatherapi-com.p.rapidapi.com/current.json"
+
+    querystring = {"q":"53.1,-0.13"}
+
+    headers = {
+	"X-RapidAPI-Key": "ebe8b25bdbmsh6a73a3577adb685p10b54ejsn7ac7fa809b3b",
+	"X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"
+    }
+
+    response = requests.get(url, headers=headers, params=querystring)
+
+
+
+    return(response.json())
+
+    # 

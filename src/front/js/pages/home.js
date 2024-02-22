@@ -11,18 +11,13 @@ export const Home = () => {
             const lat = '51.5074';
             const lon = '-0.1278';
             const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
-            const url = `https://pro.openweathermap.org/data/2.5/forecast/hourly?lat={lat}&lon={lon}&appid=${apiKey}`;
-			if (isMounted) {
-				setWeather(data);
-			}
-
-            try {
+            const url = `https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+			
+            
                 const response = await fetch(url);
                 const data = await response.json();
                 setWeather(data);
-            } catch (error) {
-                console.error("Failed to fetch weather data:", error);
-            }
+       
         };
 
         fetchWeather();
