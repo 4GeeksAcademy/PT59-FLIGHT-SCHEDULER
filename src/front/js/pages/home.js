@@ -10,8 +10,8 @@ export const Home = () => {
         const fetchWeather = async () => {
             const lat = '51.5074';
             const lon = '-0.1278';
-            const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
-            const url = `https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+           
+            const url = process.env.BACKEND_URL + "/api/weather/"+lat+"/"+lon
 			
             
                 const response = await fetch(url);

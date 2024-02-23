@@ -193,13 +193,13 @@ def get_res(reservation_id):
     return jsonify(reservation.serialize()), 200
 
 # weather 
-@api.route('/weather', methods=['GET'])
-def get_weather():
+@api.route('/weather/<float:lat>/<float:lon>', methods=['GET'])
+def get_weather(lat, lon):
    
 
     url = "https://weatherapi-com.p.rapidapi.com/current.json"
 
-    querystring = {"q":"53.1,-0.13"}
+    querystring = {"q":lat+","+lon } 
 
     headers = {
 	"X-RapidAPI-Key": "ebe8b25bdbmsh6a73a3577adb685p10b54ejsn7ac7fa809b3b",
