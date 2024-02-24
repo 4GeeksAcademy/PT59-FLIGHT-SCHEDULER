@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			token : null,
 			message: null,
 			demo: [
 				{
@@ -13,13 +14,123 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			user: null,
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
+
+			syncTokenFromSessionStore : () => {
+				const token = sessionStorage.getItem("token");
+				console.log("Application just loaded synching the local storage");
+				if(token && token != "" && token != undefined) setStore({token:token});
+			},
+
+			logout : () => {
+				sessionStorage.removeItem("token");
+				console.log("Log out");
+				setStore({token : null});
+			},
+
+			signup : async (first_name, last_name,email,password)=> {
+
+				const opts = {
+					method :'POST',
+					headers:{
+						"content-type" : "application/json"
+					},
+					body   : JSON.stringify({
+						"first_name": first_name,
+						"last_name" : last_name,
+						"email": email,
+						"password" : password
+					})
+				}
+			try{
+				const resp = await fetch(process.env.BACKEND_URL+'/api/signup', opts)
+					if(resp.status != 200){ 
+						alert("There has been some errors");
+						return false;
+					}
+					const data = await resp.json();
+						console.log("This comes from backend",data);
+						sessionStorage.setItem("token",data.access_token);
+						setStore({token : data.access_token, user:data.user})
+						return true;
+				}
+				catch(error){
+					console.log("There was error !!!", error);
+				}
+
+			},
+
+			login : async (email,password)=> {
+
+				const opts = {
+					method :'POST',
+					headers:{
+						"content-type" : "application/json"
+					},
+					body   : JSON.stringify({
+						"email": email,
+						"password" : password
+					})
+				}
+			try{
+				const resp = await fetch(process.env.BACKEND_URL+'/api/token', opts)
+					if(resp.status != 200){ 
+						alert("There has been some errors");
+						return false;
+					}
+					const data = await resp.json();
+						console.log("This comes from backend",data);
+						sessionStorage.setItem("token",data.access_token);
+						setStore({token : data.access_token, user:data.user})
+						return true;
+				}
+				catch(error){
+					console.log("There was error !!!", error);
+				}
+
+			},
+
+
+
+			profile : async (first_name,last_name,email,password)=> {
+
+				const opts = {
+					method :'POST',
+					headers:{
+						"content-type" : "application/json"
+					},
+					body   : JSON.stringify({
+						"first_name": first_name,
+						"last_name" : last_name,
+						"email": email,
+						"password" : password
+					})
+				}
+			
+				
+				const resp = await fetch(process.env.BACKEND_URL+'/api/token', opts)
+					if(resp.status != 200){ 
+						alert("There has been some errors");
+						return false;
+					}
+					const data = await resp.json();
+						console.log("This comes from backend",data);
+						sessionStorage.setItem("token",data.access_token);
+						setStore({token : data.access_token, user:data.user})
+						return true;
+				
+				
+				
+				
+			}
+		},//end signup
 
 			getMessage: async () => {
 				try{
@@ -49,6 +160,5 @@ const getState = ({ getStore, getActions, setStore }) => {
 			}
 		}
 	};
-};
 
 export default getState;
