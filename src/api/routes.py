@@ -19,7 +19,7 @@ from api.models import db, User, Reservation
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
-# import requests
+import requests
 from email.message import EmailMessage
 import smtplib
 from datetime import datetime, timedelta
@@ -169,7 +169,15 @@ def update_reservation(res_id):
    db.session.commit()
    return jsonify(request_body), 200
 
-
+# DELETE RES
+@api.route('/reservation/<int:reservation_id>', methods=['DELETE'])
+def delete_res(reservation_id):
+    # Example of retrieving a reservation from a database
+    reservation = db.get_reservation_by_id(reservation_id)
+    if reservation is None:
+     raise APIException("Reservation not found", status_code=404)
+    db.session.delete(reservation)
+    return jsonify(reservation.serialize(), "resevation deleted"), 200
 
 
 
@@ -195,21 +203,23 @@ def get_res(reservation_id):
 # weather 
 @api.route('/weather/<float:lat>/<float:lon>', methods=['GET'])
 def get_weather(lat, lon):
-   
-
-    url = "https://weatherapi-com.p.rapidapi.com/current.json"
-
-    querystring = {"q":lat+","+lon } 
-
-    headers = {
-	"X-RapidAPI-Key": "ebe8b25bdbmsh6a73a3577adb685p10b54ejsn7ac7fa809b3b",
-	"X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"
-    }
-
-    response = requests.get(url, headers=headers, params=querystring)
+    url = "https://api.weather.gov/points/33.667961,-84.017792"
 
 
 
-    return(response.json())
+    response = requests.get(url)
 
-    # 
+    return jsonify(response.properties.forecast.json())
+
+    
+
+    state = "FL" 
+    respone = requests.get(f"https://api.weather.gov/alerts/active?area={state}").json()
+
+    for x in response['features']:
+       print(x['properties']["areaDesc"])
+       print(x['properties']['headline'])
+       print(x['properties']['description'])
+       print('\n******\n')
+
+      

@@ -9,7 +9,7 @@ export const Home = () => {
 		let isMounted = true;
         const fetchWeather = async () => {
             const lat = '51.5074';
-            const lon = '-0.1278';
+            const lon = '-72.5';
            
             const url = process.env.BACKEND_URL + "/api/weather/"+lat+"/"+lon
 			
