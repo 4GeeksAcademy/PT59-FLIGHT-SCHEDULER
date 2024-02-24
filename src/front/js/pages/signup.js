@@ -6,27 +6,32 @@ import "../../styles/signup.css";
 
 export const Signup = () => {
 	const { store, actions } = useContext(Context);
+	const [first_name,setFirst_name] = useState("");
+	const [last_name, setLast_name] = useState("");
 	const [email,setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const history = useNavigate();
+	
 	const handleClick =() =>{
 
-		actions.login(email,password).then(()=>{
-				history("/");
+		actions.signup(first_name,last_name,email,password).then(()=>{
+				history("/profile");
 	})
-		
+	/*	
 		const opts = {
 			method :'POST',
 			headers:{
 				"content-type" : "application/json"
 			},
 			body   : JSON.stringify({
+				"first_name": first_name,
+				"last_name" : last_name,
 				"email": email,
 				"password" : password
 			})
 		}
 
-		fetch(process.env.BACKEND_URL +'/api/token', opts)
+		fetch('https://laughing-doodle-pjr597g9p6xrfv7v-3001.app.github.dev/api/token', opts)
 		.then(resp =>{
 			if(resp.status === 200) 
 				return resp.json();
@@ -40,17 +45,30 @@ export const Signup = () => {
 		.catch(error =>{
 			console.log("There was error !!!", error);
 		})
+	*/
 }
 
 	return (
 		<div className="text-center mt-5">
 								
 			<h1>Sign up</h1>
-			<div className="Signup">
-				<b><input type="text" value={email} placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
-				   <input type="password" value={password} placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
-				</b>				
-				<button onClick={handleClick}>Signup</button>
+			<div className="signup">
+				<div className="row">
+					<div className="col-2">
+						<input type="text" value={first_name} placeholder="First Name" onChange={(e)=>setFirst_name(e.target.value)} />
+						<input type="text" value={email} placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+					</div>
+					<div className="col-2">
+						
+						<input type="text" value={last_name} placeholder="Last Name" onChange={(e)=>setLast_name(e.target.value)}/>
+						<input type="password" value={password} placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
+					</div>
+					<div className="row" >
+						<div className="col-1">				
+							<button onClick={handleClick}>Signup</button>
+						</div>
+					</div>
+				</div>
 			</div>
 			
 		</div>
