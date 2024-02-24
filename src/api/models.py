@@ -35,7 +35,9 @@ class Reservation(db.Model):
     __tablename__ = "reservation"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    end_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
     
     user_id = db.Column(Integer, db.ForeignKey("user.id"))
     user = db.relationship(
@@ -54,8 +56,8 @@ class Reservation(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "date": self.date,
-            "flight_time": self.flight_time
+            "start_date": self.start_date,
+            "end_date": self.end_date
         }
     
 # user, login, sign up, password-reset, reservations, 

@@ -162,9 +162,10 @@ def update_reservation(res_id):
    user_id = get_jwt_identity()  
    request_body = request.get_json()
    name = request_body.get("name")
-   date = request_body.get("date")
+   start_date = request_body.get("start_date")
+   end_date = request_body.get("end_date")
 
-   new_reservation = Reservation(id=res_id, name = name, date=date, user_id=user_id)
+   new_reservation = Reservation(id=res_id, name = name, start_date = start_date, end_date = end_date, user_id=user_id)
    db.session.add(new_reservation)
    db.session.commit()
    return jsonify(request_body), 200
