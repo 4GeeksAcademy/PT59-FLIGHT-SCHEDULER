@@ -1,6 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+from noaa_api_v2 import NOAAData
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 
@@ -206,21 +207,29 @@ def get_res(reservation_id):
 def get_weather(lat, lon):
     url = "https://api.weather.gov/points/33.667961,-84.017792"
 
-
+    # weather_token=vISIDpOjgicBbgZxruvSWdYAoIbMgMmu
 
     response = requests.get(url)
-
-    return jsonify(response.properties.forecast.json())
+    print(response)
+    # return jsonify(response.properties.forecast.json())
 
     
+    api_token = "vISIDpOjgicBbgZxruvSWdYAoIbMgMmu"
 
-    state = "FL" 
-    respone = requests.get(f"https://api.weather.gov/alerts/active?area={state}").json()
+    data = NOAAData(api_token)
 
-    for x in response['features']:
-       print(x['properties']["areaDesc"])
-       print(x['properties']['headline'])
-       print(x['properties']['description'])
-       print('\n******\n')
+    categories = data.data_categories(locationid='FIPS:37', sortfield='name')
+
+    for i in categories:
+        print(i)
+
+    # state = "FL" 
+    # respone = requests.get(f"https://api.weather.gov/alerts/active?area={state}").json()
+
+    # for x in response['features']:
+    #    print(x['properties']["areaDesc"])
+    #    print(x['properties']['headline'])
+    #    print(x['properties']['description'])
+    #    print('\n******\n')
 
       
