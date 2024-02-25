@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from noaa_api_v2 import NOAAData
+# from noaa_api_v2 import NOAAData
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 
@@ -194,34 +194,34 @@ def get_all_res():
 
 
 
-@api.route('/reservation/<int:reservation_id>', methods=['GET'])
-def get_res(reservation_id):
-    # Example of retrieving a reservation from a database
-    reservation = db.get_reservation_by_id(reservation_id)
-    if reservation is None:
-     raise APIException("Person not found", status_code=404)
-    return jsonify(reservation.serialize()), 200
+# @api.route('/reservation/<int:reservation_id>', methods=['GET'])
+# def get_res(reservation_id):
+#     # Example of retrieving a reservation from a database
+#     reservation = db.get_reservation_by_id(reservation_id)
+#     if reservation is None:
+#      raise APIException("Person not found", status_code=404)
+#     return jsonify(reservation.serialize()), 200
 
-# weather 
-@api.route('/weather/<float:lat>/<float:lon>', methods=['GET'])
-def get_weather(lat, lon):
-    url = "https://api.weather.gov/points/33.667961,-84.017792"
+# # weather 
+# @api.route('/weather/<float:lat>/<float:lon>', methods=['GET'])
+# def get_weather(lat, lon):
+#     url = "https://api.weather.gov/points/33.667961,-84.017792"
 
-    # weather_token=vISIDpOjgicBbgZxruvSWdYAoIbMgMmu
+#     # weather_token=vISIDpOjgicBbgZxruvSWdYAoIbMgMmu
 
-    response = requests.get(url)
-    print(response)
-    # return jsonify(response.properties.forecast.json())
+#     response = requests.get(url)
+#     # print(response)
+#     return jsonify(response.json())
 
     
-    api_token = "vISIDpOjgicBbgZxruvSWdYAoIbMgMmu"
+    # api_token = "vISIDpOjgicBbgZxruvSWdYAoIbMgMmu"
 
-    data = NOAAData(api_token)
+    # data = NOAAData(api_token)
 
-    categories = data.data_categories(locationid='FIPS:37', sortfield='name')
+    # categories = data.data_categories(locationid='FIPS:37', sortfield='name')
 
-    for i in categories:
-        print(i)
+    # for i in categories:
+    #     print(i)
 
     # state = "FL" 
     # respone = requests.get(f"https://api.weather.gov/alerts/active?area={state}").json()
@@ -232,4 +232,4 @@ def get_weather(lat, lon):
     #    print(x['properties']['description'])
     #    print('\n******\n')
 
-      
+      #TRY TO FIGURE THIS OUT AT LATER TIME THE API BACKEND REQUEST
