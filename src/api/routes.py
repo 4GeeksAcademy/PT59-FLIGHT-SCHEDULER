@@ -1,6 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+# from noaa_api_v2 import NOAAData
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 
@@ -19,7 +20,7 @@ from api.models import db, User, Reservation
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
-# import requests
+import requests
 from email.message import EmailMessage
 import smtplib
 from datetime import datetime, timedelta
@@ -30,7 +31,7 @@ import secrets
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
 import os
 from dotenv import load_dotenv
-
+import requests
 
 # from api.emailManager import send_email
 
@@ -162,14 +163,23 @@ def update_reservation(res_id):
    user_id = get_jwt_identity()  
    request_body = request.get_json()
    name = request_body.get("name")
-   date = request_body.get("date")
+   start_date = request_body.get("start_date")
+   end_date = request_body.get("end_date")
 
-   new_reservation = Reservation(id=res_id, name = name, date=date, user_id=user_id)
+   new_reservation = Reservation(id=res_id, name = name, start_date = start_date, end_date = end_date, user_id=user_id)
    db.session.add(new_reservation)
    db.session.commit()
    return jsonify(request_body), 200
 
-
+# DELETE RES
+@api.route('/reservation/<int:reservation_id>', methods=['DELETE'])
+def delete_res(reservation_id):
+    # Example of retrieving a reservation from a database
+    reservation = db.get_reservation_by_id(reservation_id)
+    if reservation is None:
+     raise APIException("Reservation not found", status_code=404)
+    db.session.delete(reservation)
+    return jsonify(reservation.serialize(), "resevation deleted"), 200
 
 
 
@@ -184,10 +194,42 @@ def get_all_res():
 
 
 
-@api.route('/reservation/<int:reservation_id>', methods=['GET'])
-def get_res(reservation_id):
-    # Example of retrieving a reservation from a database
-    reservation = db.get_reservation_by_id(reservation_id)
-    if reservation is None:
-     raise APIException("Person not found", status_code=404)
-    return jsonify(reservation.serialize()), 200
+# @api.route('/reservation/<int:reservation_id>', methods=['GET'])
+# def get_res(reservation_id):
+#     # Example of retrieving a reservation from a database
+#     reservation = db.get_reservation_by_id(reservation_id)
+#     if reservation is None:
+#      raise APIException("Person not found", status_code=404)
+#     return jsonify(reservation.serialize()), 200
+
+# # weather 
+# @api.route('/weather/<float:lat>/<float:lon>', methods=['GET'])
+# def get_weather(lat, lon):
+#     url = "https://api.weather.gov/points/33.667961,-84.017792"
+
+#     # weather_token=vISIDpOjgicBbgZxruvSWdYAoIbMgMmu
+
+#     response = requests.get(url)
+#     # print(response)
+#     return jsonify(response.json())
+
+    
+    # api_token = "vISIDpOjgicBbgZxruvSWdYAoIbMgMmu"
+
+    # data = NOAAData(api_token)
+
+    # categories = data.data_categories(locationid='FIPS:37', sortfield='name')
+
+    # for i in categories:
+    #     print(i)
+
+    # state = "FL" 
+    # respone = requests.get(f"https://api.weather.gov/alerts/active?area={state}").json()
+
+    # for x in response['features']:
+    #    print(x['properties']["areaDesc"])
+    #    print(x['properties']['headline'])
+    #    print(x['properties']['description'])
+    #    print('\n******\n')
+
+      #TRY TO FIGURE THIS OUT AT LATER TIME THE API BACKEND REQUEST
