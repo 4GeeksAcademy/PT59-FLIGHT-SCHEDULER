@@ -61,3 +61,49 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@api.route('/signup', methods=['POST'])
+def createUser():
+    first_name = request.json.get("first_name")
+    last_name = request.json.get("last_name")
+    password = request.json.get("password")
+    email = request.json.get("email")
+
+    user = user.query.filter_by(email=email).first()
+    if user != None:
+        return jsonify({"msg": "email exists"}), 401
+    
+    if user == None:
+        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email)
+        db.session.add(new_user_data)
+        db.session.commit()
+    
+        response_body = {
+            "msg": "User successfully added"
+        }
+
+        return jsonify(response_body), 200
+    
+
+
+@api.route('/profile', methods=['POST'])
+def UpdateUser():
+    first_name = request.json.get("first_name")
+    last_name = request.json.get("last_name")
+    password = request.json.get("password")
+    email = request.json.get("email")
+
+    user = user.query.filter_by(email=email).first()
+    if user != None:
+        return jsonify({"msg": "email exists"}), 401
+    
+    if user == None:
+        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email)
+        db.session.add(new_user_data)
+        db.session.commit()
+    
+        response_body = {
+            "msg": "User successfully added"
+        }
+
+        return jsonify(response_body), 200

@@ -15,7 +15,7 @@ export const Signup = () => {
 	const handleClick =() =>{
 
 		actions.signup(first_name,last_name,email,password).then(()=>{
-				history("/profile");
+				history("/");
 	})
 	/*	
 		const opts = {

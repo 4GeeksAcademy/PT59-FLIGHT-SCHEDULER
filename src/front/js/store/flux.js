@@ -97,9 +97,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			createUser : async(first_name, last_name, email, password)=>{
+				console.log("Create user");
+				let response = await fetch(process.env.BACKEND_URL+"/api/signup",
+				 				{method : 'POST',
+								headers : {'Content-Type': 'application/json'},
+								body : JSON-stringify({
+									first_name : first_name,
+									last_name : last_name,
+									email : email,
+									password: password
+								})})
+								let data = await response.json()
+							setStore({user: data})
+			},//end createUser
 
 
-			profile : async (first_name,last_name,email,password)=> {
+			updateProfile : async(first_name, last_name, email, password)=>{
+				
+				let response = await fetch(process.env.BACKEND_URL+"/api/profile",
+				 				{method : 'POST',
+								headers : {'Content-Type': 'application/json'},
+								body : JSON-stringify({
+									first_name : first_name,
+									last_name : last_name,
+									email : email,
+									password: password
+								})})
+								let data = await response.json()
+							setStore({user: data})
+			},//end updateProfile
+
+			Profile : async (first_name,last_name,email,password)=> {
 
 				const opts = {
 					method :'POST',
@@ -130,7 +159,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				
 				
 			}
-		},//end signup
+		},//end profile
 
 			getMessage: async () => {
 				try{
