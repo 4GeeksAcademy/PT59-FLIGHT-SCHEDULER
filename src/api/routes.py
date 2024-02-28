@@ -1,44 +1,69 @@
-"""
-This module takes care of starting the API Server, Loading the DB and Adding the endpoints
-"""
-# from noaa_api_v2 import NOAAData
-from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+# """
+# This module takes care of starting the API Server, Loading the DB and Adding the endpoints
+# """
+# # from noaa_api_v2 import NOAAData
+# from flask import Flask, request, jsonify, url_for, Blueprint
+# from api.models import db, User, Reservation
 
-from api.utils import generate_sitemap, APIException
-from flask_cors import CORS
-import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
-from flask_migrate import Migrate
-from flask_swagger import swagger
-from api.utils import APIException, generate_sitemap
-from api.models import db
-from api.admin import setup_admin
-from api.commands import setup_commands
+# from api.utils import generate_sitemap, APIException
+# from flask_cors import CORS
+# import os
+# from flask import Flask, request, jsonify, url_for, send_from_directory
+# from flask_migrate import Migrate
+# from flask_swagger import swagger
+# from api.utils import APIException, generate_sitemap
+
+# from api.admin import setup_admin
+# from api.commands import setup_commands
+# from flask import Flask, request, jsonify, url_for, Blueprint
+# #from api.models import db, User
+# from api.utils import generate_sitemap, APIException
+# from flask_cors import CORS
+
+# import requests
+# from email.message import EmailMessage
+# import smtplib
+# from datetime import datetime, timedelta
+# import ssl
+# import uuid
+# from urllib.parse import unquote, quote
+# import secrets
+# from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
+# import os
+# from dotenv import load_dotenv
+# import requests
+
+
+
+# # from api.emailManager import send_email
+
+# api = Blueprint('api', __name__)
+
+# # Allow CORS requests to this API
+# CORS(api)
+
+
 from flask import Flask, request, jsonify, url_for, Blueprint
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
+from cloudinary import uploader
 from api.models import db, User, Reservation
 from api.utils import generate_sitemap, APIException
+from flask import Flask, request, jsonify
+from api.models import User
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+from api.models import db, User
+from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
+from flask import jsonify
+from flask import Flask, request, jsonify
 
-import requests
-from email.message import EmailMessage
-import smtplib
-from datetime import datetime, timedelta
-import ssl
-import uuid
-from urllib.parse import unquote, quote
-import secrets
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
-import os
-from dotenv import load_dotenv
-import requests
 
-# from api.emailManager import send_email
+
+app = Flask(__name__)
+CORS(app)
+
 
 api = Blueprint('api', __name__)
-
-# Allow CORS requests to this API
-CORS(api)
 
 
 @api.route('/hello', methods=['POST', 'GET'])

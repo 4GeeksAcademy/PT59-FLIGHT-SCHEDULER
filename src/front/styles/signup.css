@@ -1,0 +1,30 @@
+h1{
+    font-size: x-large;
+    color : blue;
+    font-family: Verdana;
+}
+input{
+    background-color: lightskyblue;
+    font-size: medium;
+    color: black;
+    margin-bottom: 2%;
+    margin-right: 10%
+}
+button{
+    background-color: lightblue;
+    font-size: large;
+    font-family: Lucida Sans;
+    align-items: center;
+    
+}
+
+.signup{
+    
+        display: flex;
+        justify-content: center; /* Horizontal centering */
+        align-items: center; /* Vertical centering */
+        height: 100px; /* Set height if you want vertical centering */
+        margin-left: 45%;
+;
+        
+}
