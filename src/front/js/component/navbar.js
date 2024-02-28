@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom"; 
 import "../../styles/navbar.css";
+import Home from "../pages/home";
 
 export const Navbar = () => {
     const { store, actions } = useContext(Context);
@@ -22,7 +23,8 @@ export const Navbar = () => {
                     <span className="navbar-brand mb-0 h1">Authentication</span>
                 </Link>
                 <div className="ml-auto">
-                {   !store.token ?
+                {   ! Home ? null : (
+
                         <>
                             <Link to="/signup">
                                 <button className="btn btn-primary">Sign up</button>
@@ -31,12 +33,13 @@ export const Navbar = () => {
                                 <button className="btn btn-success">Login</button>
                             </Link>
                         </>
-                    :
+                )}
+                {! Home && (
                         <div>
                             <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
                             <button className="btn btn-primary" onClick={goToProfile}>Profile</button>
                         </div>
-                }
+                )}
                 </div>
             </div>
         </nav>
