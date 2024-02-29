@@ -32,7 +32,7 @@ export const Navbar = () => {
                             </Link>
                             <Link to="/login">
                                 <button type="button"
-					 			className="btn btn-primary btn-animated1">Login</button>
+					 			className="btn btn-primary btn-animated2">Login</button>
                             </Link>
                         </>
                 )}
