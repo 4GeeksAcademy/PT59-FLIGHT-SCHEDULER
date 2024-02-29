@@ -65,7 +65,9 @@ export const Signup = () => {
 					</div>
 					<div className="row" >
 						<div className="col-1">				
-							<button onClick={handleClick}>Signup</button>
+							<button  type="button"
+					 			className="btn btn-primary btn-animated" 							
+							onClick={handleClick}>Signup</button>
 						</div>
 					</div>
 				</div>
