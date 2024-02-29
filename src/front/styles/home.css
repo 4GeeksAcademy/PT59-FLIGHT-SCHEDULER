@@ -5,3 +5,76 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+
+/* Button Animation */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.btn-animated {
+  background-size: 200% 200%;
+  background-image: linear-gradient(
+    to right,
+    #32de84 0%,
+    #32a1de 51%,
+    #32de84 100%
+  );
+  transition: 0.5s;
+  color: white;
+  border: none;
+}
+
+.btn-animated:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+  animation: gradient 2s ease infinite;
+}
+
+.btn-animated1 {
+  background-size: 80% 80%;
+  background-image: linear-gradient(
+    to right,
+    #ff0000 0%,
+    #000000 51%,
+    #ff0000 100%
+  );
+  transition: 0.5s;
+  color: white;
+  border: none;
+}
+
+.btn-animated1:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+  animation: gradient 2s ease infinite;
+}
+
+.btn-animated2 {
+  background-size: 200% 200%;
+  background-image: linear-gradient(
+    to right,
+    #000000 0%,
+    #00008b 51%,
+    #000000 100%
+  );
+  transition: 0.5s;
+  color: white;
+  border: none;
+}
+
+.btn-animated2:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+  animation: gradient 2s ease infinite;
+}
