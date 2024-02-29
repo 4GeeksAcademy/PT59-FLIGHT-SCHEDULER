@@ -52,3 +52,7 @@
     text-decoration: none;
     animation: gradient 2s ease infinite;
   }
+
+  navbar-brand{
+    color :#fff;
+  }

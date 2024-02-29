@@ -20,7 +20,7 @@ export const Navbar = () => {
         <nav className="navbar navbar-light bg-light">
             <div className="container">
                 <Link to="/">
-                    <span className="navbar-brand mb-0 h1">Authentication</span>
+                    <span className="navbar-brand mb-0 h1">Logo here</span>
                 </Link>
                 <div className="ml-auto">
                 {   ! Home ? null : (
