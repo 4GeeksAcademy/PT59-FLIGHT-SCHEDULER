@@ -10,7 +10,11 @@ const cities = {
   Detroit: { lat: 42.3314, lon: -83.0458 },
   Sheppard: { lat: 33.97, lon: -98.51 },
   Laughlin: { lat: 29.3566, lon: -100.7831 },
-};
+  Los_Angeles: {lat: 34.0549 , lon: -118.2426},
+  LaGuardia: {lat: 40.7733, lon: -73.8718},
+  JFK: {lat: 40.6446, lon: -73.7797},
+  
+}; 
 
 export const Home = () => {
   const [selectedCity, setSelectedCity] = useState("");
