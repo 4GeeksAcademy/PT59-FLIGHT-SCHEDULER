@@ -65,12 +65,12 @@ const Eventactions = () => {
 	// //{item}{""}<i classNamename="fa-solid fa-xmark" onClick={() => setTodos(todos.filter((t, currentIndex) => index != currentIndex))}></i>
 	return (
 		<div classNameName="container">
-			<!-- Button trigger modal -->
+			{/* <!-- Button trigger modal --> */}
 			<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 			Launch demo modal
 			</button>
 
-			<!-- Modal -->
+			{/* <!-- Modal --> */}
 			<div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div className="modal-dialog">
 					<div className="modal-content">

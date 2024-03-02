@@ -5,7 +5,7 @@ import startOfWeek from "date-fns/startOfWeek";
 import React, { useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import DateTimePicker from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // import "./App.css";
 
@@ -35,7 +35,7 @@ export function Thecalender() {
     const [newFlight, setNewFlight] = useState({ title: "", start: "", end: "" });
     const [allFlights, setAllFlights] = useState(events);
 
-    function handleAddEvent() {
+    function handleAddEvent(showTimeSelect) {
 
         for (let i = 0; i < allFlights.length; i++) {
 
@@ -70,8 +70,8 @@ export function Thecalender() {
             <h2>Add New Event</h2>
             <div>
                 <input type="text" placeholder="Add Title" style={{ width: "20%", marginRight: "10px" }} value={newFlight.title} onChange={(e) => setNewFlight({ ...newFlight, title: e.target.value })} />
-                <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }} selected={newFlight.start} onChange={(start) => setNewFlight({ ...newFlight, start })} />
-                <DatePicker placeholderText="End Date" selected={newFlight.end} onChange={(end) => setNewFlight({ ...newFlight, end })} />
+                <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }} selected={newFlight.start} onChange={(start) => setNewFlight({ ...newFlight, start })}  showTimeInput  dateFormat="Pp"/>
+                <DatePicker placeholderText="End Date" selected={newFlight.end} onChange={(end) => setNewFlight({ ...newFlight, end })} showTimeInput  dateFormat="Pp" />
                 <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
                     Add Event
                 </button>
