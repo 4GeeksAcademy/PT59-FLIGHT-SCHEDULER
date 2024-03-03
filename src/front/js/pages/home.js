@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 import "../../styles/home.css";
 
 // Cities object with coordinates for Miami and Atlanta
@@ -10,11 +11,11 @@ const cities = {
   Detroit: { lat: 42.3314, lon: -83.0458 },
   Sheppard: { lat: 33.97, lon: -98.51 },
   Laughlin: { lat: 29.3566, lon: -100.7831 },
-  Los_Angeles: {lat: 34.0549 , lon: -118.2426},
-  LaGuardia: {lat: 40.7733, lon: -73.8718},
-  JFK: {lat: 40.6446, lon: -73.7797},
-  
-}; 
+  Los_Angeles: { lat: 34.0549, lon: -118.2426 },
+  LaGuardia: { lat: 40.7733, lon: -73.8718 },
+  JFK: { lat: 40.6446, lon: -73.7797 },
+
+};
 
 export const Home = () => {
   const [selectedCity, setSelectedCity] = useState("");
@@ -108,14 +109,14 @@ export const Home = () => {
       )}
       <div className="text-center mt-5">
         <div className="row">
-          <button type="button" className="btn btn-danger btn-animated1">
+          <Link to={"/calenderpage"} type="button" className="btn btn-danger btn-animated1">
             Schedule your flight! HERE!
-          </button>
+          </Link>
         </div>
         <div className="row mt-3">
-          <button type="button" className="btn btn-primary btn-animated2">
+          <Link to={"/calenderpage"} type="button" className="btn btn-primary btn-animated2">
             Edit your flight! HERE!
-          </button>
+          </Link>
         </div>
       </div>
     </div>
