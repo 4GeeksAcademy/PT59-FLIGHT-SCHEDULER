@@ -3,9 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 import { Thecalender } from "./component/calenderpage";
-import Home from "./pages/home";
-import { Login } from "./pages/login";
-import { Signup } from "./pages/signup";
+
 
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
