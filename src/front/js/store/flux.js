@@ -38,20 +38,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			signup : async (first_name, last_name,email,password)=> {
 
 				const opts = {
-					method :'POST',
-					headers:{
-						"content-type" : "application/json"
+					method: 'POST',
+					headers: {
+						"Content-Type" : "application/json"
 					},
-					body   : JSON.stringify({
+					body: JSON.stringify({
 						"first_name": first_name,
 						"last_name" : last_name,
 						"email": email,
 						"password" : password
 					})
 				}
-			try{
 				const resp = await fetch(process.env.BACKEND_URL+'/api/signup', opts)
-					if(resp.status != 200){ 
+					if(!resp.ok){ 
 						alert("There has been some errors");
 						return false;
 					}
@@ -60,11 +59,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						sessionStorage.setItem("token",data.access_token);
 						setStore({token : data.access_token, user:data.user})
 						return true;
-				}
-				catch(error){
-					console.log("There was error !!!", error);
-				}
-
 			},
 
 			login : async (email,password)=> {
@@ -79,7 +73,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"password" : password
 					})
 				}
-			try{
 				const resp = await fetch(process.env.BACKEND_URL+'/api/token', opts)
 					if(resp.status != 200){ 
 						alert("There has been some errors");
@@ -90,10 +83,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						sessionStorage.setItem("token",data.access_token);
 						setStore({token : data.access_token, user:data.user})
 						return true;
-				}
-				catch(error){
-					console.log("There was error !!!", error);
-				}
 
 			},
 

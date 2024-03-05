@@ -57,13 +57,9 @@ from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
 from flask import jsonify
 from flask import Flask, request, jsonify
 
-
-
-app = Flask(__name__)
-CORS(app)
-
-
 api = Blueprint('api', __name__)
+CORS(api)
+
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -92,16 +88,21 @@ def createUser():
     if user != None:
         return jsonify({"msg": "email exists"}), 401
     
-    if user == None:
-        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email, is_active=True)
-        db.session.add(new_user_data)
-        db.session.commit()
-    
-        response_body = {
-            "msg": "User successfully added"
-        }
+    new_user_data = User(
+       first_name=first_name,
+       last_name=last_name,
+       password=password,
+       email = email,
+       is_active=True
+    )
+    db.session.add(new_user_data)
+    db.session.commit()
 
-        return jsonify(response_body), 200
+    response_body = {
+        "msg": "User successfully added"
+    }
+
+    return jsonify(response_body), 200
 
    
 # use put or post in signup
