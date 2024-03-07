@@ -34,15 +34,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         sessionStorage.removeItem("token");
         console.log("Log out");
         setStore({ token: null });
+        setStore({ user: null });
       },
-	  
 
       signup: async (first_name, last_name, email, password) => {
-		    console.log('Backend URL:', process.env.BACKEND_URL);
+        console.log("Backend URL:", process.env.BACKEND_URL);
         const opts = {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", 
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             first_name: first_name,
@@ -51,17 +51,14 @@ const getState = ({ getStore, getActions, setStore }) => {
             password: password,
           }),
         };
-        const resp = await fetch(
-          `${process.env.BACKEND_URL}/api/signup`,
-          opts
-        );
+        const resp = await fetch(`${process.env.BACKEND_URL}/api/signup`, opts);
         if (!resp.ok) {
           console.error("Signup failed with status: ", resp.status);
           return false;
         }
         const data = await resp.json();
         console.log("This comes from backend", data);
-        sessionStorage.setItem("token", data.access_token); 
+        sessionStorage.setItem("token", data.access_token);
         setStore({ token: data.access_token, user: data.user });
         return true;
       },
