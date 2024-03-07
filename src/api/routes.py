@@ -59,11 +59,8 @@ from flask import Flask, request, jsonify
 
 
 
-app = Flask(__name__)
-CORS(app)
-
-
 api = Blueprint('api', __name__)
+CORS(api)
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -130,7 +127,7 @@ def create_token():
 @jwt_required()
 def edit_user():
     current_user_id = get_jwt_identity()
-    user = user.query.get(current_user_id)
+    user = User.query.get(current_user_id)
 
     if user is None:
         return jsonify({"msg":"user does not exist"}), 404
@@ -157,7 +154,7 @@ def edit_user():
 
 @api.route('/user/<int:id>', methods=['GET'])
 def get_user(id):
-   user = user.query.get(id)
+   user = User.query.get(id)
 
    if user is None: 
     raise APIException("Person not found", status_code=404)

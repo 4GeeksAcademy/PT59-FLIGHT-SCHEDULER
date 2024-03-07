@@ -12,15 +12,15 @@ export const Signup = () => {
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    let result = await actions.signup(first_name, last_name, email, password)
-      if(result == true){
+      let result = await actions.signup(first_name, last_name, email, password);
+      if (result === true) {
         navigate("/login");
-      }else{
-        alert("An error occurs when trying to signup");
+      } else {
+        alert(
+          "An error occurred during signup. Please check your information and try again."
+        );
       }
-      
-    };
-    
+  };
 
   return (
     <div className="text-center mt-5">

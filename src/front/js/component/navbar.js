@@ -23,7 +23,11 @@ export const Navbar = () => {
                     <span className="navbar-brand mb-0 h1">Logo here</span>
                 </Link>
                 <div className="ml-auto">
-                {   ! Home ? null : (
+                {   store.user ? <div>
+                            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+                            <button className="btn btn-primary" onClick={goToProfile}>Profile</button>
+                        </div>
+                    : (
 
                         <>
                             <Link to="/signup">
@@ -36,12 +40,7 @@ export const Navbar = () => {
                             </Link>
                         </>
                 )}
-                {! Home && (
-                        <div>
-                            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
-                            <button className="btn btn-primary" onClick={goToProfile}>Profile</button>
-                        </div>
-                )}
+                
                 </div>
             </div>
         </nav>
