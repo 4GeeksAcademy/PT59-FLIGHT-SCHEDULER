@@ -88,12 +88,12 @@ def createUser():
     password = request.json.get("password")
     email = request.json.get("email")
 
-    user = user.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=email).first()
     if user != None:
         return jsonify({"msg": "email exists"}), 401
     
     if user == None:
-        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email)
+        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email, is_active=True)
         db.session.add(new_user_data)
         db.session.commit()
     
@@ -114,7 +114,7 @@ def create_token():
     email = request.json.get("email")
     password = request.json.get("password")
     
-    user = user.query.filter_by(email=email, password=password).first()
+    user = User.query.filter_by(email=email, password=password).first()
     if user is None:
         
         return jsonify({"msg": "Bad email or password"}), 401

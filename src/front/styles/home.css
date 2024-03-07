@@ -40,7 +40,7 @@
 }
 
 .btn-animated1 {
-  background-size: 80% 80%;
+  background-size: 200% 200%;
   background-image: linear-gradient(
     to right,
     #ff0000 0%,
@@ -64,7 +64,7 @@
   background-image: linear-gradient(
     to right,
     #000000 0%,
-    #00008b 51%,
+    #0303a3 51%,
     #000000 100%
   );
   transition: 0.5s;

@@ -1,11 +1,20 @@
 .navbar{
-    background-color: #98bcf5 !important;
-}
+    background-image: linear-gradient(
+      to right,
+      #0e0101 0%,
+      #f40c0c 51%,
+      #0b0000 100%
+    );
+    transition: 0.5s;
+    color: white;
+    border: none;
+  }
+
 
 
 
 .btn-animated {
-    background-size: 200% 200%;
+    background-size: 80% 80%;
     background-image: linear-gradient(
       to right,
       #ff0000 0%,
@@ -24,22 +33,26 @@
     animation: gradient 2s ease infinite;
   }
 
-  .btn-animated1 {
+  .btn-animated2 {
     background-size: 80% 80%;
     background-image: linear-gradient(
       to right,
-      #ff0000 0%,
-      #000000 51%,
-      #ff0000 100%
+      #5a1818 0%,
+      #733731 51%,
+      #a20303 100%
     );
     transition: 0.5s;
     color: white;
     border: none;
   }
   
-  .btn-animated1:hover {
+  .btn-animated2:hover {
     background-position: right center;
     color: #fff;
     text-decoration: none;
     animation: gradient 2s ease infinite;
+  }
+
+  navbar-brand{
+    color :#fff;
   }
