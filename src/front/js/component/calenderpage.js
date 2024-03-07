@@ -2,11 +2,12 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Context } from "../store/appContext";
 // import "./App.css";
 
 
@@ -34,6 +35,7 @@ const events = [
 export function Thecalender() {
     const [newFlight, setNewFlight] = useState({ title: "", start: "", end: "" });
     const [allFlights, setAllFlights] = useState(events);
+    const { store, actions } = useContext(Context);
 
     function handleAddEvent(showTimeSelect) {
 
@@ -59,22 +61,26 @@ export function Thecalender() {
             }
 
         }
-
+        // update this to get name and data properly
+        // they are being save to new flight, you seperate them before here
+        actions.createReservation(name, date)
 
         setAllFlights([...allFlights, newFlight]);
     }
 
     return (
         <div className="App">
-            <h1>Calendar</h1>
-            <h2>Add New Event</h2>
-            <div>
-                <input type="text" placeholder="Add Title" style={{ width: "20%", marginRight: "10px" }} value={newFlight.title} onChange={(e) => setNewFlight({ ...newFlight, title: e.target.value })} />
-                <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }} selected={newFlight.start} onChange={(start) => setNewFlight({ ...newFlight, start })}  showTimeInput  dateFormat="Pp"/>
-                <DatePicker placeholderText="End Date" selected={newFlight.end} onChange={(end) => setNewFlight({ ...newFlight, end })} showTimeInput  dateFormat="Pp" />
-                <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
-                    Add Event
-                </button>
+            <div className="calendar-header">
+                <h1>Calendar</h1>
+                <h2>Add New Event</h2>
+                <div>
+                    <input type="text" placeholder="Add Title" style={{ width: "20%", marginRight: "10px" }} value={newFlight.title} onChange={(e) => setNewFlight({ ...newFlight, title: e.target.value })} />
+                    <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }} selected={newFlight.start} onChange={(start) => setNewFlight({ ...newFlight, start })} showTimeInput dateFormat="Pp" />
+                    <DatePicker placeholderText="End Date" selected={newFlight.end} onChange={(end) => setNewFlight({ ...newFlight, end })} showTimeInput dateFormat="Pp" />
+                    <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
+                        Add Event
+                    </button>
+                </div>
             </div>
             <Calendar localizer={localizer} events={allFlights} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
         </div>
