@@ -162,10 +162,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			//end profile
 			createReservation: async (name, date) => {
-				let response = await fetch(process.env.BACKEND_URL + "api/reservation", {
+				let response = await fetch(process.env.BACKEND_URL + "/api/reservation", {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON - stringify({
+					body: JSON.stringify({
 						name: name,
 						date: date
 					})

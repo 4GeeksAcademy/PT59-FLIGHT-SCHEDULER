@@ -63,7 +63,8 @@ export function Thecalender() {
         }
         // update this to get name and data properly
         // they are being save to new flight, you seperate them before here
-        actions.createReservation(name, date)
+        actions.createReservation(name, newFlight)
+        console.log(newFlight)
 
         setAllFlights([...allFlights, newFlight]);
     }

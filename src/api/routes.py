@@ -125,7 +125,7 @@ def get_user(id):
 
 @api.route('/reservation', methods=['POST'])
 @jwt_required()
-def create_reservation(res_id):
+def create_reservation():
    user_id = get_jwt_identity()  
    request_body = request.get_json()
    name = request_body.get("name")
