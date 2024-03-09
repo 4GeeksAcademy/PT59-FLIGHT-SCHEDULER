@@ -4,10 +4,8 @@ from cloudinary import uploader
 from api.models import db, User, Reservation
 from api.utils import generate_sitemap, APIException
 from flask import Flask, request, jsonify
-from api.models import User
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from api.models import db, User
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
 from flask import jsonify
 from flask import Flask, request, jsonify
@@ -41,10 +39,10 @@ def createUser():
         return jsonify({"msg": "email exists"}), 401
     
     if user == None:
-        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email, is_active = True)
+        new_user_data = User(first_name=first_name, last_name=last_name, password=password, email = email, is_active = True)
         db.session.add(new_user_data)
         db.session.commit()
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity = new_user_data)
         return jsonify(access_token=access_token, user = new_user_data.serialize()), 200
 
 
@@ -62,11 +60,10 @@ def create_token():
         return jsonify({"msg": "user doesn't exist"}), 401
     
     if user is not None:
-        access_token = create_access_token(identity= user.id)
+        access_token = create_access_token(identity = user.id)
         return jsonify(access_token=access_token, user = user.serialize()), 200
 
 
-# ask shane what he thinks about that and should be handled
 
 @api.route('/edit_user', methods=[ 'PUT'])
 @jwt_required()
