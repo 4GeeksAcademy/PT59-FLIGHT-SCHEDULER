@@ -13,12 +13,9 @@ from flask import jsonify
 from flask import Flask, request, jsonify
 
 
-
-app = Flask(__name__)
-CORS(app)
-
-
 api = Blueprint('api', __name__)
+# Allow CORS requests to this API
+CORS(api)
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -29,10 +26,6 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
-
-
-
-
 # any other endpoint will try to serve it like a static file
 
 #signUp
@@ -43,40 +36,34 @@ def createUser():
     password = request.json.get("password")
     email = request.json.get("email")
 
-    user = user.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=email).first()
     if user != None:
         return jsonify({"msg": "email exists"}), 401
     
     if user == None:
-        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email)
+        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email, is_active = True)
         db.session.add(new_user_data)
         db.session.commit()
-    
-        response_body = {
-            "msg": "User successfully added"
-        }
+        access_token = create_access_token(identity=user.id)
+        return jsonify(access_token=access_token, user = new_user_data.serialize()), 200
 
-        return jsonify(response_body), 200
 
    
 # use put or post in signup
 
-
-
 #login
 @api.route('/token', methods=['POST'])
 def create_token():
-    email = request.json.get("email")
     password = request.json.get("password")
+    email = request.json.get("email")
+
+    user = User.query.filter_by(email=email, password=password).first()
+    if user == None:
+        return jsonify({"msg": "user doesn't exist"}), 401
     
-    user = user.query.filter_by(email=email, password=password).first()
-    if user is None:
-        
-        return jsonify({"msg": "Bad email or password"}), 401
-    
-  
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id }) ,200
+    if user is not None:
+        access_token = create_access_token(identity= user.id)
+        return jsonify(access_token=access_token, user = user.serialize()), 200
 
 
 # ask shane what he thinks about that and should be handled
@@ -129,9 +116,10 @@ def create_reservation():
    user_id = get_jwt_identity()  
    request_body = request.get_json()
    name = request_body.get("name")
-   date = request_body.get("date")
+   start_date = request_body.get("start_date")
+   end_date = request_body.get("end_date")
  
-   new_reservation = Reservation(name = name, date=date, user_id=user_id)
+   new_reservation = Reservation(name = name, start_date = start_date, end_date = end_date, user_id = user_id)
    db.session.add(new_reservation)
    db.session.commit()
    return jsonify("User successfully created"), 200
@@ -160,8 +148,6 @@ def delete_res(reservation_id):
      raise APIException("Reservation not found", status_code=404)
     db.session.delete(reservation)
     return jsonify(reservation.serialize(), "resevation deleted"), 200
-
-
 
 @api.route('/reservation', methods=['GET'])
 def get_all_res():

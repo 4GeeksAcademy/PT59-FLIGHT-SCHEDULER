@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			token: null,
+			token: sessionStorage.getItem('token'),
 			message: null,
 			demo: [
 				{
@@ -37,7 +37,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			signup: async (first_name, last_name, email, password) => {
-
 				const opts = {
 					method: 'POST',
 					headers: {
@@ -58,8 +57,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await resp.json();
 					console.log("This comes from backend", data);
+					setStore({ user: data.user })
 					sessionStorage.setItem("token", data.access_token);
-					setStore({ token: data.access_token, user: data.user })
 					return true;
 				}
 				catch (error) {
@@ -88,8 +87,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await resp.json();
 					console.log("This comes from backend", data);
+					setStore({ user: data.user })
 					sessionStorage.setItem("token", data.access_token);
-					setStore({ token: data.access_token, user: data.user })
 					return true;
 				}
 				catch (error) {
@@ -161,13 +160,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 			//end profile
-			createReservation: async (name, date) => {
+			createReservation: async (flightInfo) => {
+				console.log(getStore().token)
 				let response = await fetch(process.env.BACKEND_URL + "/api/reservation", {
 					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
+					headers: {
+						'Content-Type': 'application/json',
+						"Authorization": getStore().token,
+					},
 					body: JSON.stringify({
-						name: name,
-						date: date
+						name: flightInfo.title,
+						start_date: flightInfo.start,
+						end_date: flightInfo.end
 					})
 				})
 				let data = await response.json()
