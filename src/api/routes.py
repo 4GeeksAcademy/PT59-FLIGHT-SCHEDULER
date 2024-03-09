@@ -1,14 +1,9 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
-from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, verify_jwt_in_request
 from cloudinary import uploader
 from api.models import db, User, Reservation
 from api.utils import generate_sitemap, APIException
-from flask import Flask, request, jsonify
-from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
-from flask import jsonify
-from flask import Flask, request, jsonify
 
 
 api = Blueprint('api', __name__)
@@ -42,8 +37,9 @@ def createUser():
         new_user_data = User(first_name=first_name, last_name=last_name, password=password, email = email, is_active = True)
         db.session.add(new_user_data)
         db.session.commit()
-        access_token = create_access_token(identity = new_user_data)
-        return jsonify(access_token=access_token, user = new_user_data.serialize()), 200
+        user = User.query.filter_by(email=email, password=password)
+        access_token = create_access_token(identity = user.id)
+        return jsonify(access_token, user), 200
 
 
    
@@ -61,7 +57,7 @@ def create_token():
     
     if user is not None:
         access_token = create_access_token(identity = user.id)
-        return jsonify(access_token=access_token, user = user.serialize()), 200
+        return jsonify(access_token, user), 200
 
 
 
@@ -69,23 +65,23 @@ def create_token():
 @jwt_required()
 def edit_user():
     current_user_id = get_jwt_identity()
-    user = user.query.get(current_user_id)
+    user = User.query.get(current_user_id)
 
     if user is None:
         return jsonify({"msg":"user does not exist"}), 404
 
     # Update user fields based on the JSON data (assuming JSON payload)
     data = request.get_json()
-    user.first_name = data.get('first_name')
-    user.last_name = data.get('last_name')
-    user.biography = data.get('biography')
-    user.perm_location = data.get('perm_location')
+    User.first_name = data.get('first_name')
+    User.last_name = data.get('last_name')
+    User.biography = data.get('biography')
+    User.perm_location = data.get('perm_location')
     # user.places_visited = data.get('places_visited')
     # user.wishlist_places = data.get('wishlist_places')
 
     # Update other fields as needed
     db.session.commit()
-    user = user.query.get(current_user_id)
+    user = User.query.get(current_user_id)
     response_body = {
         "msg": "Success!", "user":user.serialize()
     }
@@ -96,7 +92,7 @@ def edit_user():
 
 @api.route('/user/<int:id>', methods=['GET'])
 def get_user(id):
-   user = user.query.get(id)
+   user = User.query.filter_by(id=id)
 
    if user is None: 
     raise APIException("Person not found", status_code=404)
@@ -152,7 +148,6 @@ def get_all_res():
     reservations = Reservation.query.filter_by(user_id = user_id)  # Fetch all reservation instances
     if not reservations:
         raise APIException("No reservations found", status_code=404)
-
     # Serialize each reservation and return as a list
     return jsonify([reservation.serialize() for reservation in reservations]), 200
 
