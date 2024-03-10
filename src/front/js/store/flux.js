@@ -179,7 +179,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getReservation: async (name, date) => {
 				let response = await fetch(process.env.BACKEND_URL + "api/reservation")
 				let data = await response.json()
-				setStore({ reservation: data })
+				// still needs tested
+				let currentUsersRes = data.filter((res) => {
+					if (res.date > new Date().toLocaleDateString()) {
+						return res.user_id = getStore().user.id
+					}
+				})
+				setStore({ reservation: currentUsersRes })
 			},
 
 
