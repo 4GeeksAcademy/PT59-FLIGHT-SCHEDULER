@@ -101,7 +101,18 @@ def createUser():
         return jsonify(response_body), 200
 
    
-# use put or post in signup
+# Forgot Password
+@api.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    email = request.json.get('email')
+    if email is None :
+        return jsonify({'msg': 'No email was received'}), 400
+    user=User.query.filter_by(email=email).first()
+    if user is None :
+        return jsonify({'msg': 'There is no account associated to this email'}), 404
+    # Here goes the function to send the link via email
+    return jsonify({'msg': 'Success, a reset link has been sent to your email address'}), 200
+   
 
 
 

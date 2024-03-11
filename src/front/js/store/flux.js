@@ -86,7 +86,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
           console.log("This comes from backend", data);
           sessionStorage.setItem("token", data.access_token);
-          setStore({ token: data.access_token, user: data.user });
+          setStore({ token: data.token, user: data.user });
           return true;
         } catch (error) {
           console.log("There was error !!!", error);
@@ -152,6 +152,30 @@ const getState = ({ getStore, getActions, setStore }) => {
         sessionStorage.setItem("token", data.access_token);
         setStore({ token: data.access_token, user: data.user });
         return true;
+      },
+
+      forgotPasswordRequest: async (email) => {
+        let opt = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email }),
+        };
+        try {
+          let response = await fetch(
+            process.env.BACKEND_URL + "/api/forgot-password",
+            opt
+          );
+          if (!response.ok) {
+            return false;
+          } else {
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+          return false;
+        }
       },
     }, //end profile
 

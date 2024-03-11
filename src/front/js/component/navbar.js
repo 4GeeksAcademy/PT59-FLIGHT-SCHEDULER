@@ -23,9 +23,9 @@ export const Navbar = () => {
                     <span className="navbar-brand mb-0 h1">Logo here</span>
                 </Link>
                 <div className="ml-auto">
-                {   store.user ? <div>
-                            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
-                            <button className="btn btn-primary" onClick={goToProfile}>Profile</button>
+                {   store.token ? <div>
+                            <button className="btn btn-danger btn-animated3" onClick={handleLogout}>Logout</button>
+                            <button className="btn btn-primary btn-animated4" onClick={goToProfile}>Profile</button>
                         </div>
                     : (
 
