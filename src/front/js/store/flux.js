@@ -1,4 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
+
   return {
     store: {
       token: null,
@@ -16,6 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         },
       ],
       user: null,
+      reservation: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -128,31 +130,51 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ user: data });
       }, //end updateProfile
 
-      Profile: async (first_name, last_name, email, password) => {
-        const opts = {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-            password: password,
-          }),
-        };
+     Profile: async (first_name, last_name, email, password) => {
 
-        const resp = await fetch(process.env.BACKEND_URL + "/api/token", opts);
-        if (resp.status != 200) {
-          alert("There has been some errors");
-          return false;
-        }
-        const data = await resp.json();
-        console.log("This comes from backend", data);
-        sessionStorage.setItem("token", data.access_token);
-        setStore({ token: data.access_token, user: data.user });
-        return true;
-      },
+				const opts = {
+					method: 'POST',
+					headers: {
+						"content-type": "application/json"
+					},
+					body: JSON.stringify({
+						"first_name": first_name,
+						"last_name": last_name,
+						"email": email,
+						"password": password
+					})
+				}
+
+
+				const resp = await fetch(process.env.BACKEND_URL + '/api/token', opts)
+				if (resp.status != 200) {
+					alert("There has been some errors");
+					return false;
+				}
+				const data = await resp.json();
+				console.log("This comes from backend", data);
+				sessionStorage.setItem("token", data.access_token);
+				setStore({ token: data.access_token, user: data.user })
+				return true;
+
+			},
+			//end profile
+			createReservation: async (name, date) => {
+				let response = await fetch(process.env.BACKEND_URL + "api/reservation", {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON - stringify({
+						name: name,
+						date: date
+					})
+				})
+				let data = await response.json()
+			},
+			getReservation: async (name, date) => {
+				let response = await fetch(process.env.BACKEND_URL + "api/reservation")
+				let data = await response.json()
+				setStore({ reservation: data })
+			},
 
       forgotPasswordRequest: async (email) => {
         let opt = {

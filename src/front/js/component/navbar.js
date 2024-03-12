@@ -15,6 +15,7 @@ export const Navbar = () => {
 
     // Function to navigate to profile
     const goToProfile = () => navigate("/profile");
+    const goToHome = () => navigate("/");
 
     return (
         <nav className="navbar navbar-light bg-light">
@@ -38,11 +39,21 @@ export const Navbar = () => {
                                 <button type="button"
 					 			className="btn btn-primary btn-animated2">Login</button>
                             </Link>
+                            <Link to="/">
+                            <button type="button" className="btn btn-warning" onClick={goToHome}>Home </button>
+                            </Link>
                         </>
                 )}
-                
+                {! Home && (
+                        <div>
+                            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+                            <button className="btn btn-primary" onClick={goToProfile}>Profile</button>
+                            
+                        </div>
+                )}
                 </div>
             </div>
+           
         </nav>
     );
 };
