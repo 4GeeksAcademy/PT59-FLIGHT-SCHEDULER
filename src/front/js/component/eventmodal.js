@@ -38,10 +38,10 @@ const Flightactions = () => {
 	const apiUrl = process.env.BACKEND_URL;
 	// process.env.BACKEND_URL + "/admin/Reservation"
 
-	useEffect(async () => {
-		// Define the API endpoint
-		getEvents()
-	}, []);
+	// useEffect(async () => {
+	// 	// Define the API endpoint
+	// 	actions.getEvents()
+	// }, []);
 
 	useEffect(() => {
 		console.log("This function will run any time events change.");
@@ -52,9 +52,9 @@ const Flightactions = () => {
 		const newEvent = events.concat([{label: inputValue, done: false}])
 		const response = await fetch(apiUrl + "reservation", {
 			headers: {
-				// Authorization: "Bearer " + t'Content-Type': 'application/json'
-				Authorization: 'Content-Type': 'application/json'
-			  },
+				// 'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+				'Content-Type': 'application/json'
+			},
 			  method: "POST",
 			  body: JSON.stringify(newEvent)
 		});
@@ -63,41 +63,35 @@ const Flightactions = () => {
 	}
 	
 	
+	// get reservation id from api when getting past crated reservations, then when updating a res pass in the id to api request
 	// const updateApi = async () => {
 	// 	try {
-	// 		await axios.put(apiUrl, events)
+	// 		await axios.put(apiUrl + "/reservation/" + resId, events)
 	// 	} catch (error) {
 	// 		console.error('Error fetching data', error)
 	// 	}
 	// }
 
-	const getEvents = async () => {
-		// Make a GET request
-		const response = await fetch(apiUrl + "reservation", {
-			headers: {
-				// Authorization: "Bearer " + t'Content-Type': 'application/json'
-				Authorization: 'Content-Type': 'application/json'
-			  },
-			  method: "GET",
-			  body: JSON.stringify(newEvent)
-		});
-		const data = response.json();
-	}
-
-	const handleDelete = async () => {
+	const deleteReservation = async () => {
 		try {
-		// Make a DELETE request using Axios
-		await axios.delete(apiUrl + "reservation");
-		// process.env.BACKEND_URL + "/admin/Reservation"
-		window.location.reload();
+			await axios.delete(apiUrl + "reservation", {
+				headers: {
+					'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+					'Content-Type': 'application/json'
+				},
+				// Assuming newEvent is defined elsewhere
+				data: JSON.stringify(newEvent)
+			});
 	
-		// Handle success, e.g., show a success message or update the UI
-		console.log('Event deleted successfully');
+			// After successful deletion, reload the page
+			window.location.reload();
+	
+			console.log('Reservation deleted successfully');
 		} catch (error) {
-		// Handle error, e.g., show an error message or log the error
-		console.error('Error deleting event:', error);
+			console.error('Error deleting reservation:', error);
 		}
 	};
+	
 
 	function handleAddEvent() {
         
@@ -130,16 +124,16 @@ const Flightactions = () => {
     }
 
 
-	// //{item}{""}<i classNamename="fa-solid fa-xmark" onClick={() => setTodos(todos.filter((t, currentIndex) => index != currentIndex))}></i>
+	// //{item}{""}<i className="fa-solid fa-xmark" onClick={() => setTodos(todos.filter((t, currentIndex) => index != currentIndex))}></i>
 	return (
-		<div classNameName="container">
+		<div className="container">
 			{/* <!-- Button trigger modal --> */}
 			<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 			Launch demo modal
 			</button>
 
 			{/* <!-- Modal --> */}
-			<div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div className="modal-dialog">
 					<div className="modal-content">
 					<div className="modal-header">
@@ -156,7 +150,7 @@ const Flightactions = () => {
 						</div>
 					</div>
 					<div className="modal-footer">
-						<button type="button" classNameName="btn btn-secondary" onClick={handleDelete}>Delete</button>
+						<button type="button" className="btn btn-secondary" onClick={deleteReservation}>Delete</button>
 						<button type="button" className="btn btn-primary" onClick={handleAddEvent}>Save changes</button>
 					</div>
 					</div>
