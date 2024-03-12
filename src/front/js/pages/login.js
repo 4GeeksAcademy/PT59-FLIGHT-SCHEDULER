@@ -20,31 +20,7 @@ export const Login = () => {
 			// history("/");
 		})
 
-		const opts = {
-			method: 'POST',
-			headers: {
-				"content-type": "application/json"
-			},
-			body: JSON.stringify({
-				"email": email,
-				"password": password
-			})
-		}
-
-		fetch('https://obscure-space-enigma-v6vjwpgwqjqv3p6v9-3001.app.github.dev/api/token', opts)
-			.then(resp => {
-				if (resp.status === 200)
-					return resp.json();
-				else
-					alert("There has been some errors");
-			})
-			.then(data => {
-				console.log("This comes from backend", data);
-				sessionStorage.setItemetItem("token", data.access_token);
-			})
-			.catch(error => {
-				console.log("There was error !!!", error);
-			})
+		
 	}
 
 	console.log(store.token)

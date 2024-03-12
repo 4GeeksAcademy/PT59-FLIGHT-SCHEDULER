@@ -30,16 +30,16 @@ def createUser():
     email = request.json.get("email")
 
     user = User.query.filter_by(email=email).first()
-    if user != None:
+    if user is not None:
         return jsonify({"msg": "email exists"}), 401
     
-    if user == None:
-        new_user_data = User(first_name=first_name, last_name=last_name, password=password, email = email, is_active = True)
-        db.session.add(new_user_data)
-        db.session.commit()
-        user = User.query.filter_by(email=email, password=password)
-        access_token = create_access_token(identity = user.id)
-        return jsonify(access_token, user), 200
+  
+    new_user_data = User(first_name=first_name, last_name=last_name, password=password, email = email, is_active = True)
+    db.session.add(new_user_data)
+    db.session.commit()
+    db.session.refresh(new_user_data)
+    access_token = create_access_token(identity=new_user_data.id)
+    return jsonify(access_token=access_token, user=new_user_data.serialize()), 200
 
 
    
@@ -51,15 +51,17 @@ def create_token():
     password = request.json.get("password")
     email = request.json.get("email")
 
-    user = User.query.filter_by(email=email, password=password).first()
-    if user == None:
-        return jsonify({"msg": "user doesn't exist"}), 401
+    user = User.query.filter_by(email=email).first()
+    if user is None:
+        return jsonify(msg = "invalid credenitals"), 401
     
-    if user is not None:
-        access_token = create_access_token(identity = user.id)
-        return jsonify(access_token, user), 200
+    if user.password != password:
+       return jsonify(msg = "invalid credenitals"), 401
+    
+    access_token = create_access_token(identity = user.id)
+    return jsonify(access_token=access_token, user=user.serialize()), 200
 
-
+    
 
 @api.route('/edit_user', methods=[ 'PUT'])
 @jwt_required()
