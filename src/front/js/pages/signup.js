@@ -11,43 +11,50 @@ export const Signup = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleClick = async () => {
-    let result = await actions.signup(first_name, last_name, email, password)
-      if(result == true){
-        navigate("/login");
-      }else{
-        alert("An error occurs when trying to signup");
-      }
-      
-    };
-    
+  const handleClick = async (e) => { 
+    e.preventDefault();
+    let result = await actions.signup(first_name, last_name, email, password);
+    if (result === true) {
+      navigate("/login");
+    } else {
+      alert(
+        "An error occurred during signup. Please check your information and try again."
+      );
+    }
+  };
 
   return (
     <div className="text-center mt-5">
       <h1>Sign up</h1>
-      <div className="signup">
+      <form className="signup" onSubmit={handleClick}>
         <div className="row">
-          <div className="col-2">
+          <div className="col-6">
+            <label> First Name </label>
             <input
               type="text"
               value={first_name}
               placeholder="First Name"
               onChange={(e) => setFirst_name(e.target.value)}
             />
+
+            <label> Email </label>
             <input
-              type="text"
+              type="email"
               value={email}
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="col-2">
+            <label> Last Name </label>
             <input
               type="text"
               value={last_name}
               placeholder="Last Name"
               onChange={(e) => setLast_name(e.target.value)}
             />
+
+            <label> Password </label>
             <input
               type="password"
               value={password}
@@ -56,18 +63,18 @@ export const Signup = () => {
             />
           </div>
           <div className="row">
-            <div className="col-1">
+            <div className="col-6">
               <button
-                type="button"
+                type="submit"
                 className="btn btn-primary btn-animated"
-                onClick={handleClick}
+                
               >
                 Signup
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

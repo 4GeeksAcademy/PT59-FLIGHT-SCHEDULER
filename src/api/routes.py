@@ -14,11 +14,8 @@ from flask import Flask, request, jsonify
 
 
 
-app = Flask(__name__)
-CORS(app)
-
-
 api = Blueprint('api', __name__)
+CORS(api)
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -59,7 +56,18 @@ def createUser():
         return jsonify(response_body), 200
 
    
-# use put or post in signup
+# Forgot Password
+@api.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    email = request.json.get('email')
+    if email is None :
+        return jsonify({'msg': 'No email was received'}), 400
+    user=User.query.filter_by(email=email).first()
+    if user is None :
+        return jsonify({'msg': 'There is no account associated to this email'}), 404
+    # Here goes the function to send the link via email
+    return jsonify({'msg': 'Success, a reset link has been sent to your email address'}), 200
+   
 
 
 
@@ -85,7 +93,7 @@ def create_token():
 @jwt_required()
 def edit_user():
     current_user_id = get_jwt_identity()
-    user = user.query.get(current_user_id)
+    user = User.query.get(current_user_id)
 
     if user is None:
         return jsonify({"msg":"user does not exist"}), 404
@@ -112,7 +120,7 @@ def edit_user():
 
 @api.route('/user/<int:id>', methods=['GET'])
 def get_user(id):
-   user = user.query.get(id)
+   user = User.query.get(id)
 
    if user is None: 
     raise APIException("Person not found", status_code=404)
