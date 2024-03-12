@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 import { Thecalender } from "./component/calenderpage";
+import Flightactions from "./component/eventmodal";
 
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
@@ -26,6 +27,7 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Thecalender />} path="/calenderpage" />
+                        <Route element={<Flightactions />} path="/eventmodal" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

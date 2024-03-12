@@ -42,12 +42,12 @@ export function Thecalender() {
             const d2 = new Date(newFlight.start);
             const d3 = new Date(allFlights[i].end);
             const d4 = new Date(newFlight.end);
-      /*
+      
           console.log(d1 <= d2);
           console.log(d2 <= d3);
           console.log(d1 <= d4);
           console.log(d4 <= d3);
-            */
+            
 
              if (
               ( (d1  <= d2) && (d2 <= d3) ) || ( (d1  <= d4) &&
@@ -60,7 +60,7 @@ export function Thecalender() {
     
         }
         
-        
+        // Eventactions([]);
         setAllFlights([...allFlights, newFlight]);
     }
 
