@@ -5,11 +5,20 @@ import { BackendURL } from "./component/backendURL";
 import { Thecalender } from "./component/calenderpage";
 import Flightactions from "./component/eventmodal";
 
+
+import { Home } from "./pages/home";
+import { Demo } from "./pages/demo";
+import {Login} from "./pages/login";
+import {Signup} from "./pages/signup";
 import { Single } from "./pages/single";
+
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+
+import { ForgotPassword } from "./pages/forgotPassword";
+
 // import "./App.css";
 
 //create your first component
@@ -28,8 +37,15 @@ const Layout = () => {
                     <Routes>
                         <Route element={<Thecalender />} path="/calenderpage" />
                         <Route element={<Flightactions />} path="/eventmodal" />
+                        <Route element={<Home />} path="/" />
+                        <Route element={<Login />} path="/login" />
+                        <Route element={<Signup />} path="/signup" />
+                        <Route element={<Demo />} path="/demo" />
+                        <Route element={<ForgotPassword />} path="/forgotPassword" />
                         <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<h1>Not found!</h1>} />
+
+
+
                     </Routes>
                     <Footer />
                 </ScrollToTop>

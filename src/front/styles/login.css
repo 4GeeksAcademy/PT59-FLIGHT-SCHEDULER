@@ -1,0 +1,41 @@
+button {
+  background-color: #98bcf5 !important;
+}
+
+.btn-animated {
+  background-size: 200% 200%;
+  background-image: linear-gradient(
+    to right,
+    #ff0000 0%,
+    #000000 51%,
+    #ff0000 100%
+  );
+  transition: 0.5s;
+  color: white;
+  border: none;
+}
+
+.btn-animated:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+  animation: gradient 2s ease infinite;
+}
+
+h1 {
+  justify-content: center;
+}
+
+label {
+  font-size: large;
+  font-family: times New Roman;
+  color: blue;
+  padding-right: 2%;
+  margin-right: 2%;
+}
+
+.login {
+  padding-right: 2%;
+  margin-right: 2%;
+
+}

@@ -1,42 +1,20 @@
-"""
-This module takes care of starting the API Server, Loading the DB and Adding the endpoints
-"""
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
-
-from api.utils import generate_sitemap, APIException
-from flask_cors import CORS
-import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
-from flask_migrate import Migrate
-from flask_swagger import swagger
-from api.utils import APIException, generate_sitemap
-from api.models import db
-from api.admin import setup_admin
-from api.commands import setup_commands
-from flask import Flask, request, jsonify, url_for, Blueprint
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
+from cloudinary import uploader
 from api.models import db, User, Reservation
 from api.utils import generate_sitemap, APIException
+from flask import Flask, request, jsonify
+from api.models import User
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+from api.models import db, User
+from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
+from flask import jsonify
+from flask import Flask, request, jsonify
 
-import requests
-from email.message import EmailMessage
-import smtplib
-from datetime import datetime, timedelta
-import ssl
-import uuid
-from urllib.parse import unquote, quote
-import secrets
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, decode_token
-import os
-from dotenv import load_dotenv
-import requests
 
-# from api.emailManager import send_email
 
 api = Blueprint('api', __name__)
-
-# Allow CORS requests to this API
 CORS(api)
 
 
@@ -62,12 +40,12 @@ def createUser():
     password = request.json.get("password")
     email = request.json.get("email")
 
-    user = user.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=email).first()
     if user != None:
         return jsonify({"msg": "email exists"}), 401
     
     if user == None:
-        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email)
+        new_user_data = User(first_name=first_name, last_name=last_name ,password=password, email = email, is_active=True)
         db.session.add(new_user_data)
         db.session.commit()
     
@@ -78,7 +56,18 @@ def createUser():
         return jsonify(response_body), 200
 
    
-# use put or post in signup
+# Forgot Password
+@api.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    email = request.json.get('email')
+    if email is None :
+        return jsonify({'msg': 'No email was received'}), 400
+    user=User.query.filter_by(email=email).first()
+    if user is None :
+        return jsonify({'msg': 'There is no account associated to this email'}), 404
+    # Here goes the function to send the link via email
+    return jsonify({'msg': 'Success, a reset link has been sent to your email address'}), 200
+   
 
 
 
@@ -88,7 +77,7 @@ def create_token():
     email = request.json.get("email")
     password = request.json.get("password")
     
-    user = user.query.filter_by(email=email, password=password).first()
+    user = User.query.filter_by(email=email, password=password).first()
     if user is None:
         
         return jsonify({"msg": "Bad email or password"}), 401
@@ -104,7 +93,7 @@ def create_token():
 @jwt_required()
 def edit_user():
     current_user_id = get_jwt_identity()
-    user = user.query.get(current_user_id)
+    user = User.query.get(current_user_id)
 
     if user is None:
         return jsonify({"msg":"user does not exist"}), 404
@@ -131,7 +120,7 @@ def edit_user():
 
 @api.route('/user/<int:id>', methods=['GET'])
 def get_user(id):
-   user = user.query.get(id)
+   user = User.query.get(id)
 
    if user is None: 
     raise APIException("Person not found", status_code=404)
@@ -184,7 +173,8 @@ def delete_res(reservation_id):
 
 @api.route('/reservation', methods=['GET'])
 def get_all_res():
-    reservations = Reservation.query.all()  # Fetch all reservation instances
+    user_id = get_jwt_identity()  
+    reservations = Reservation.query.filter_by(user_id = user_id)  # Fetch all reservation instances
     if not reservations:
         raise APIException("No reservations found", status_code=404)
 
@@ -193,34 +183,42 @@ def get_all_res():
 
 
 
-@api.route('/reservation/<int:reservation_id>', methods=['GET'])
-def get_res(reservation_id):
-    # Example of retrieving a reservation from a database
-    reservation = db.get_reservation_by_id(reservation_id)
-    if reservation is None:
-     raise APIException("Person not found", status_code=404)
-    return jsonify(reservation.serialize()), 200
+# @api.route('/reservation/<int:reservation_id>', methods=['GET'])
+# def get_res(reservation_id):
+#     # Example of retrieving a reservation from a database
+#     reservation = db.get_reservation_by_id(reservation_id)
+#     if reservation is None:
+#      raise APIException("Person not found", status_code=404)
+#     return jsonify(reservation.serialize()), 200
 
-# weather 
-@api.route('/weather/<float:lat>/<float:lon>', methods=['GET'])
-def get_weather(lat, lon):
-    url = "https://api.weather.gov/points/33.667961,-84.017792"
+# # weather 
+# @api.route('/weather/<float:lat>/<float:lon>', methods=['GET'])
+# def get_weather(lat, lon):
+#     url = "https://api.weather.gov/points/33.667961,-84.017792"
 
+#     # weather_token=vISIDpOjgicBbgZxruvSWdYAoIbMgMmu
 
-
-    response = requests.get(url)
-
-    return jsonify(response.properties.forecast.json())
+#     response = requests.get(url)
+#     # print(response)
+#     return jsonify(response.json())
 
     
+    # api_token = "vISIDpOjgicBbgZxruvSWdYAoIbMgMmu"
 
-    state = "FL" 
-    respone = requests.get(f"https://api.weather.gov/alerts/active?area={state}").json()
+    # data = NOAAData(api_token)
 
-    for x in response['features']:
-       print(x['properties']["areaDesc"])
-       print(x['properties']['headline'])
-       print(x['properties']['description'])
-       print('\n******\n')
+    # categories = data.data_categories(locationid='FIPS:37', sortfield='name')
 
-      
+    # for i in categories:
+    #     print(i)
+
+    # state = "FL" 
+    # respone = requests.get(f"https://api.weather.gov/alerts/active?area={state}").json()
+
+    # for x in response['features']:
+    #    print(x['properties']["areaDesc"])
+    #    print(x['properties']['headline'])
+    #    print(x['properties']['description'])
+    #    print('\n******\n')
+
+      #TRY TO FIGURE THIS OUT AT LATER TIME THE API BACKEND REQUEST

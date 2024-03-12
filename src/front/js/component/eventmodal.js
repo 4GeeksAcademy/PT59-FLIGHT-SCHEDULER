@@ -126,6 +126,7 @@ const Flightactions = () => {
 
 	// //{item}{""}<i className="fa-solid fa-xmark" onClick={() => setTodos(todos.filter((t, currentIndex) => index != currentIndex))}></i>
 	return (
+
 		<div className="container">
 			{/* <!-- Button trigger modal --> */}
 			<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -133,6 +134,7 @@ const Flightactions = () => {
 			</button>
 
 			{/* <!-- Modal --> */}
+
 			<div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div className="modal-dialog">
 					<div className="modal-content">

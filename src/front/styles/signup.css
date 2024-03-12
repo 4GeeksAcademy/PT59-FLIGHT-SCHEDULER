@@ -1,0 +1,61 @@
+h1 {
+  font-size: x-large;
+  color: blue;
+  font-family: Verdana;
+}
+input {
+  background-color: lightskyblue;
+  font-size: medium;
+  color: black;
+  margin-bottom: 2%;
+  margin-right: 10%;
+}
+button {
+  background-color: lightblue;
+  font-size: large;
+  font-family: Lucida Sans;
+  align-items: center;
+}
+
+.signup {
+  display: flex;
+  justify-content: center; /* Horizontal centering */
+  align-items: center; /* Vertical centering */
+  height: 100px; /* Set height if you want vertical centering */
+  margin-left: 45%;
+  margin-top: 7%;
+  margin-bottom: 7%;
+}
+.row {
+  display: flex;
+}
+
+.btn-animated {
+  background-size: 200% 200%;
+  background-image: linear-gradient(
+    to right,
+    #ff0000 0%,
+    #000000 51%,
+    #ff0000 100%
+  );
+  transition: 0.5s;
+  color: white;
+  border: none;
+}
+
+.btn-animated:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+  animation: gradient 2s ease infinite;
+}
+
+label {
+  font-size: large;
+  font-family: times New Roman;
+  color: blue;
+  padding-right: 2%;
+  margin-right: 2%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
