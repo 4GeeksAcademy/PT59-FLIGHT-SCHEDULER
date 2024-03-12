@@ -45,6 +45,7 @@ export function Thecalender() {
             const d2 = new Date(newFlight.start);
             const d3 = new Date(allFlights[i].end);
             const d4 = new Date(newFlight.end);
+
             /*
                 console.log(d1 <= d2);
                 console.log(d2 <= d3);
@@ -61,6 +62,7 @@ export function Thecalender() {
             }
 
         }
+
         // update this to get name and data properly
         // they are being save to new flight, you seperate them before here
         actions.createReservation(name, date)
