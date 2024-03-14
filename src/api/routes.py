@@ -117,7 +117,7 @@ def create_reservation():
    new_reservation = Reservation(name = name, start_date = start_date, end_date = end_date, user_id = user_id)
    db.session.add(new_reservation)
    db.session.commit()
-   return jsonify("User successfully created"), 200
+   return jsonify("Reservation successfully created"), 200
 
 
 @api.route('/reservation/<int:res_id>', methods=['PUT'])
@@ -145,6 +145,7 @@ def delete_res(reservation_id):
     return jsonify(reservation.serialize(), "resevation deleted"), 200
 
 @api.route('/reservation', methods=['GET'])
+@jwt_required()
 def get_all_res():
     user_id = get_jwt_identity()  
     reservations = Reservation.query.filter_by(user_id = user_id)  # Fetch all reservation instances

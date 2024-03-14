@@ -87,7 +87,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					const data = await resp.json();
 					console.log("This comes from backend", data);
-					setStore({ user: data.user , token:data.access_token})
+					setStore({ user: data.user, token: data.access_token })
 					sessionStorage.setItem("token", data.access_token);
 					return true;
 				}
@@ -162,11 +162,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			//end profile
 			createReservation: async (flightInfo) => {
 				console.log(getStore().token)
-				let response = await fetch(process.env.BACKEND_URL + "/api/reservation", {
+				let response = await fetch(process.env.BACKEND_URL + "api/reservation", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
-						"Authorization": getStore().token,
+						"Authorization": "Bearer " + getStore().token,
 					},
 					body: JSON.stringify({
 						name: flightInfo.title,
@@ -176,16 +176,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				let data = await response.json()
 			},
-			getReservation: async (name, date) => {
-				let response = await fetch(process.env.BACKEND_URL + "api/reservation")
-				let data = await response.json()
-				// still needs tested
-				let currentUsersRes = data.filter((res) => {
-					if (res.date > new Date().toLocaleDateString()) {
-						return res.user_id = getStore().user.id
-					}
+			getReservation: async () => {
+				let response = await fetch(process.env.BACKEND_URL + "api/reservation", {
+					headers: {
+						"Authorization": "Bearer " + getStore().token,
+					},
 				})
-				setStore({ reservation: currentUsersRes })
+				let data = await response.json()
+				console.log(data);
+				// still needs tested
+				// let currentUsersRes = data.filter((res) => {
+				// 	if (res.date > new Date().toLocaleDateString()) {
+				// 		return res.user_id = getStore().user.id
+				// 	}
+				// })
+				setStore({ reservation: data })
 			},
 
 
