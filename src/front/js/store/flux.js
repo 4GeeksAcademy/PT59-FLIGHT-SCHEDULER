@@ -162,7 +162,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			//end profile
 			createReservation: async (flightInfo) => {
 				console.log(getStore().token)
-				let response = await fetch(process.env.BACKEND_URL + "api/reservation", {
+				let response = await fetch(process.env.BACKEND_URL + "/api/reservation", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -177,19 +177,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let data = await response.json()
 			},
 			getReservation: async () => {
-				let response = await fetch(process.env.BACKEND_URL + "api/reservation", {
+				let response = await fetch(process.env.BACKEND_URL + "/api/reservation", {
 					headers: {
 						"Authorization": "Bearer " + getStore().token,
 					},
 				})
 				let data = await response.json()
-				console.log(data);
-				// still needs tested
-				// let currentUsersRes = data.filter((res) => {
-				// 	if (res.date > new Date().toLocaleDateString()) {
-				// 		return res.user_id = getStore().user.id
-				// 	}
-				// })
 				setStore({ reservation: data })
 			},
 
