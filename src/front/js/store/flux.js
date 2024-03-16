@@ -175,6 +175,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				})
 				let data = await response.json()
+				await getActions().getReservation();
 			},
 			getReservation: async () => {
 				let response = await fetch(process.env.BACKEND_URL + "/api/reservation", {
@@ -183,7 +184,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 				})
 				let data = await response.json()
-				setStore({ reservation: data })
+				console.log(data)
+				setStore({ reservation: data.map((event)=>({
+					id:event.id,
+					title:event.name,
+					start: event.start_date,
+					end: event.end_date
+				})) })
 			},
 
 

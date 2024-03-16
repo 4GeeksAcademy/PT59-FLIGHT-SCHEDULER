@@ -8,7 +8,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Context } from "../store/appContext";
-// import "./App.css";
+
 
 const locales = {
     "en-US": require("date-fns/locale/en-US"),
@@ -29,14 +29,11 @@ export function Thecalender() {
     useEffect(() => {
         async function getReservations() {
             await actions.getReservation();
-            setAllFlights(store.reservation);
         }
         getReservations();
     }, []);
 
-    useEffect(() => {
-        setAllFlights(store.reservation);
-    }, [store.reservation])
+    
 
     console.log(allFlights);
     function handleAddEvent() {
@@ -69,8 +66,8 @@ export function Thecalender() {
                     </button>
                 </div>
             </div>
-            {console.log(allFlights)}
-            <Calendar localizer={localizer} events={allFlights} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
+           
+            <Calendar localizer={localizer} events={store.reservation} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
         </div>
     );
 }

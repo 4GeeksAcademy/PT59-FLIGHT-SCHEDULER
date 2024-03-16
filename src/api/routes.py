@@ -148,9 +148,9 @@ def delete_res(reservation_id):
 @jwt_required()
 def get_all_res():
     user_id = get_jwt_identity()  
-    reservations = Reservation.query.filter_by(user_id = user_id)  # Fetch all reservation instances
-    if not reservations:
-        raise APIException("No reservations found", status_code=404)
+    reservations = Reservation.query.filter_by(user_id = user_id).all()  # Fetch all reservation instances
+    # if not reservations:
+        # raise APIException("No reservations found", status_code=404)
     # Serialize each reservation and return as a list
     return jsonify([reservation.serialize() for reservation in reservations]), 200
 
