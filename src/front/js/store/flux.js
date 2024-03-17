@@ -184,7 +184,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 				})
 				let data = await response.json()
-				console.log(data)
 				setStore({ reservation: data.map((event)=>({
 					id:event.id,
 					title:event.name,
