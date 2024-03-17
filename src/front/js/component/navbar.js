@@ -50,8 +50,8 @@ export const Navbar = () => {
                         </>
                     )}
                     {!Home && (
-                        <div>
-                            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+                        <div className="d-flex justify-content-between">
+                            <button className="btn btn-danger mr-2" onClick={handleLogout}>Logout</button>
                             <button className="btn btn-primary" onClick={goToProfile}>Profile</button>
 
                         </div>

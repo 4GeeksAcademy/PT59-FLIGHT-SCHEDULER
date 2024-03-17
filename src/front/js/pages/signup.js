@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-import "../../styles/signup.css";
+// import "../../styles/signup.css";
 
 export const Signup = () => {
 
@@ -12,7 +12,7 @@ export const Signup = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleClick = async (e) => { 
+  const handleClick = async (e) => {
     e.preventDefault();
     let result = await actions.signup(first_name, last_name, email, password);
     if (result === true) {
@@ -25,20 +25,32 @@ export const Signup = () => {
   };
 
   return (
-    <div className="text-center mt-5">
+    <div className="text-center mt-5 w-50 mx-auto">
       <h1>Sign up</h1>
       <form className="signup" onSubmit={handleClick}>
-        <div className="row">
-          <div className="col-6">
-            <label> First Name </label>
+        <div className="row mb-5">
+          <div className="col">
+            <label>First Name</label>
             <input
               type="text"
               value={first_name}
               placeholder="First Name"
               onChange={(e) => setFirst_name(e.target.value)}
             />
-
-            <label> Email </label>
+          </div>
+          <div className="col">
+            <label>Last Name</label>
+            <input
+              type="text"
+              value={last_name}
+              placeholder="Last Name"
+              onChange={(e) => setLast_name(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <label>Email</label>
             <input
               type="email"
               value={email}
@@ -46,16 +58,8 @@ export const Signup = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="col-2">
-            <label> Last Name </label>
-            <input
-              type="text"
-              value={last_name}
-              placeholder="Last Name"
-              onChange={(e) => setLast_name(e.target.value)}
-            />
-
-            <label> Password </label>
+          <div className="col">
+            <label>Password</label>
             <input
               type="password"
               value={password}
@@ -63,20 +67,15 @@ export const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="row">
-            <div className="col-6">
-              <button
-                type="submit"
-                className="btn btn-primary btn-animated"
-                
-              >
-                Signup
-              </button>
-            </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <button type="submit" className="btn btn-primary btn-animated">Signup</button>
           </div>
         </div>
       </form>
     </div>
+
   );
 
 };
