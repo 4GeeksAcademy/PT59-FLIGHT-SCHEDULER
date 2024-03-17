@@ -44,12 +44,14 @@ export function Thecalender() {
             const d3 = new Date(allFlights[i].end);
             const d4 = new Date(newFlight.end);
 
+
             if (((d1 <= d2) && (d2 <= d3)) || ((d1 <= d4) && (d4 <= d3))) {
                 alert("CLASH");
                 return; // Exit the function if there's a clash
             }
         }
         actions.createReservation(newFlight);
+
         setAllFlights([...allFlights, newFlight]);
     }
 

@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";
+
+import {useNavigate, Link} from "react-router-dom";
+
 import "../../styles/login.css";
 
 
@@ -31,13 +33,22 @@ export const Login = () => {
 			{(store.token !== "undefined" && store.token !== null && typeof (store.token)) ? "You are logged in" :
 
 				<div className="Login">
-					<input type="text" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-					<input type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
 
+					<label>Email</label>
+					<input type="text" value={email} placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+					<label>Password</label>
+					<input type="password" value={password} placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
+					
 					<button type="button"
-						className="btn btn-primary btn-animated"
-						onClick={handleClick} >Login</button>
+					 className="btn btn-primary btn-animated"
+					onClick={handleClick} >Login</button>
+
+					<div className="forgotPassword">
+						<Link to="/forgotPassword"> Forgot password </Link>
+					</div>
+
 				</div>
+				
 			}
 		</div>
 	);

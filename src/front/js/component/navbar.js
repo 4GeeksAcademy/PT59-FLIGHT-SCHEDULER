@@ -22,10 +22,16 @@ export const Navbar = () => {
         <nav className="navbar navbar-light bg-light">
             <div className="container">
                 <Link to="/">
-                    <span className="navbar-brand mb-0 h1">Authentication</span>
+                    <span className="navbar-brand mb-0 h1">Logo here</span>
                 </Link>
                 <div className="ml-auto">
-                    {!Home ? null : (
+
+                {   store.token ? <div>
+                            <button className="btn btn-danger btn-animated3" onClick={handleLogout}>Logout</button>
+                            <button className="btn btn-primary btn-animated4" onClick={goToProfile}>Profile</button>
+                        </div>
+                    : (
+
 
                         <>
                             <Link to="/signup">
@@ -34,7 +40,9 @@ export const Navbar = () => {
                             </Link>
                             <Link to="/login">
                                 <button type="button"
-                                    className="btn btn-primary btn-animated1">Login</button>
+
+					 			className="btn btn-primary btn-animated2">Login</button>
+
                             </Link>
                             <Link to="/">
                                 <button type="button" className="btn btn-warning" onClick={goToHome}>Home </button>

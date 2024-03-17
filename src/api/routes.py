@@ -4,10 +4,15 @@ from cloudinary import uploader
 from api.models import db, User, Reservation
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from api.models import db, User
+from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
+from flask import jsonify
+from flask import Flask, request, jsonify
 
 
 api = Blueprint('api', __name__)
 # Allow CORS requests to this API
+
 CORS(api)
 
 
@@ -30,6 +35,7 @@ def createUser():
     email = request.json.get("email")
 
     user = User.query.filter_by(email=email).first()
+
     if user is not None:
         return jsonify({"msg": "email exists"}), 401
     
@@ -43,15 +49,28 @@ def createUser():
 
 
    
-# use put or post in signup
+# Forgot Password
+@api.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    email = request.json.get('email')
+    if email is None :
+        return jsonify({'msg': 'No email was received'}), 400
+    user=User.query.filter_by(email=email).first()
+    if user is None :
+        return jsonify({'msg': 'There is no account associated to this email'}), 404
+    # Here goes the function to send the link via email
+    return jsonify({'msg': 'Success, a reset link has been sent to your email address'}), 200
+   
 
 #login
 @api.route('/token', methods=['POST'])
 def create_token():
     password = request.json.get("password")
+
     email = request.json.get("email")
 
     user = User.query.filter_by(email=email).first()
+
     if user is None:
         return jsonify(msg = "invalid credenitals"), 401
     

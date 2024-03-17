@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 import { Thecalender } from "./component/calenderpage";
+import Flightactions from "./component/eventmodal";
 
 
 import { Home } from "./pages/home";
@@ -16,6 +17,9 @@ import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+
+import { ForgotPassword } from "./pages/forgotPassword";
+
 // import "./App.css";
 
 //create your first component
@@ -33,10 +37,20 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Thecalender />} path="/calenderpage" />
+                        <Route element={<Flightactions />} path="/eventmodal" />
                         <Route element={<Home />} path="/" />
                         <Route element={<Login />} path="/login" />
                         <Route element={<Signup />} path="/signup" />
+
                         <Route element={<Profile />} path="/profile" />
+
+                        <Route element={<Demo />} path="/demo" />
+                        <Route element={<ForgotPassword />} path="/forgotPassword" />
+                        <Route element={<Single />} path="/single/:theid" />
+
+
+
+
                     </Routes>
                     <Footer />
                 </ScrollToTop>
