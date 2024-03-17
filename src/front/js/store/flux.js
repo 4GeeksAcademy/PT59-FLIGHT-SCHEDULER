@@ -1,5 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
 
+
   return {
     store: {
       token: null,
@@ -132,6 +133,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
      Profile: async (first_name, last_name, email, password) => {
 
+
 				const opts = {
 					method: 'POST',
 					headers: {
@@ -159,21 +161,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 			//end profile
-			createReservation: async (name, date) => {
-				let response = await fetch(process.env.BACKEND_URL + "api/reservation", {
+			createReservation: async (flightInfo) => {
+				console.log(getStore().token)
+				let response = await fetch(process.env.BACKEND_URL + "/api/reservation", {
 					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON - stringify({
-						name: name,
-						date: date
+					headers: {
+						'Content-Type': 'application/json',
+						"Authorization": "Bearer " + getStore().token,
+					},
+					body: JSON.stringify({
+						name: flightInfo.title,
+						start_date: flightInfo.start,
+						end_date: flightInfo.end
 					})
 				})
 				let data = await response.json()
+				await getActions().getReservation();
 			},
-			getReservation: async (name, date) => {
-				let response = await fetch(process.env.BACKEND_URL + "api/reservation")
+			getReservation: async () => {
+				let response = await fetch(process.env.BACKEND_URL + "/api/reservation", {
+					headers: {
+						"Authorization": "Bearer " + getStore().token,
+					},
+				})
 				let data = await response.json()
-				setStore({ reservation: data })
+				setStore({ reservation: data.map((event)=>({
+					id:event.id,
+					title:event.name,
+					start: event.start_date,
+					end: event.end_date
+				})) })
 			},
 
       forgotPasswordRequest: async (email) => {

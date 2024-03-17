@@ -8,8 +8,9 @@ import Flightactions from "./component/eventmodal";
 
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
-import {Login} from "./pages/login";
-import {Signup} from "./pages/signup";
+import { Login } from "./pages/login";
+import { Signup } from "./pages/signup";
+import Profile from "./pages/profile";
 import { Single } from "./pages/single";
 
 import injectContext from "./store/appContext";
@@ -27,7 +28,7 @@ const Layout = () => {
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
         <div>
@@ -40,9 +41,13 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Login />} path="/login" />
                         <Route element={<Signup />} path="/signup" />
+
+                        <Route element={<Profile />} path="/profile" />
+
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<ForgotPassword />} path="/forgotPassword" />
                         <Route element={<Single />} path="/single/:theid" />
+
 
 
 

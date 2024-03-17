@@ -1,7 +1,13 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+body {
+    background-color: beige;
+}
 .calendar-header {
     margin:5% 0;
     text-align: center;
+}
+.react-datepicker-popper {
+    z-index: 999999 !important;
 }

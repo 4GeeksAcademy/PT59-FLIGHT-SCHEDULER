@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/signup.css";
 
 export const Signup = () => {
+
   const { store, actions } = useContext(Context);
   const [first_name, setFirst_name] = useState("");
   const [last_name, setLast_name] = useState("");
@@ -77,4 +78,5 @@ export const Signup = () => {
       </form>
     </div>
   );
+
 };

@@ -26,7 +26,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "is_admin": self.is_admin
+            # "is_admin": self.is_admin
             # do not serialize the password, its a security breach
         }
 
@@ -34,7 +34,7 @@ class User(db.Model):
 class Reservation(db.Model):
     __tablename__ = "reservation"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True, nullable=False)
+    name = db.Column(db.String(120), nullable=False)
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     end_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
