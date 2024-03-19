@@ -2,12 +2,19 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 body {
-    background-color: beige;
+  background-color: beige;
 }
 .calendar-header {
-    margin:5% 0;
-    text-align: center;
+  margin: 5% 0;
+  text-align: center;
 }
 .react-datepicker-popper {
-    z-index: 999999 !important;
+  z-index: 999999 !important;
+}
+
+img {
+  height: 70px;
+  width: 80px;
+  margin-right: 300px;
+  border-radius: 100%;
 }

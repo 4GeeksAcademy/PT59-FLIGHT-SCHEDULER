@@ -67,7 +67,7 @@ export const Home = () => {
 
   return (
     <div className="container py-5 my-5 bg-light border rounded-3">
-      <h1 className="display-4">Weather App</h1>
+      <h1 className="display-4">Forecast in Area:</h1>
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="mb-3">
           <label htmlFor="citySelect" className="form-label">
@@ -113,11 +113,7 @@ export const Home = () => {
             Schedule your flight! HERE!
           </Link>
         </div>
-        <div className="row mt-3">
-          <Link to={"/calenderpage"} type="button" className="btn btn-primary btn-animated2">
-            Edit your flight! HERE!
-          </Link>
-        </div>
+       
       </div>
     </div>
   );
@@ -127,3 +123,8 @@ export default Home;
 
 
 // This is me tryin to merge to the main branch
+// For editing flight later on  <div className="row mt-3">
+      //     <Link to={"/calenderpage"} type="button" className="btn btn-primary btn-animated2">
+      //     Edit your flight! HERE!
+      //   </Link>
+      // </div>
