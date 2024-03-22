@@ -54,7 +54,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             password: password,
           }),
         };
-        const resp = await fetch(`${process.env.BACKEND_URL}/api/signup`, opts);
+        const resp = await fetch(process.env.BACKEND_URL+ "/api/signup", opts);
         if (!resp.ok) {
           console.error("Signup failed with status: ", resp.status);
           return false;
@@ -74,7 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify({
             email: email,
-            password: password,
+            password: password
           }),
         };
         try {
@@ -93,6 +93,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           return true;
         } catch (error) {
           console.log("There was error !!!", error);
+         
         }
       },
 

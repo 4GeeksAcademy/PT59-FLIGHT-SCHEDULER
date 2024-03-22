@@ -11,15 +11,16 @@ export const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	//const token = sessionStorage.getItem("token");
-	const history = useNavigate();
+	const navigate = useNavigate();
 
 
 	console.log("This is your token", store.token);
 
 	const handleClick = () => {
 
-		actions.login(email, password).then(() => {
-			// history("/");
+		actions.login(email, password).then((loggedIn) => {
+			if (loggedIn) navigate('/')
+			
 		})
 
 		
